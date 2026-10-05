@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+{% block title %}My Inquiries | Krishaka Mitram{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h3 class="fw-bold text-dark mb-1">
+            <i class="bi bi-chat-left-dots text-success me-2"></i>My Buyer Inquiries
+        </h3>
+        <p class="text-muted small mb-0">Produce listings you have expressed interest in</p>
+    </div>
+    <a href="{% url 'farmer-list' %}" class="btn btn-outline-success">
+        <i class="bi bi-search me-1"></i> Browse More Produce
+    </a>
+</div>
+
+{% if applications %}
+    <div class="card card-custom bg-white overflow-hidden">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>Crop</th>
+                        <th>Farmer Name</th>
+                        <th>Location</th>
+                        <th>Expected Price</th>
+                        <th>Available Qty</th>
+                        <th>Inquiry Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for app in applications %}
+                        <tr>
+                            <td>
+                                <strong class="text-success">{{ app.Farmer.crop_name.name }}</strong>
+                                <small class="text-muted d-block">{{ app.Farmer.crop_type.name }}</small>
+                            </td>
+                            <td>
+                                <span class="fw-semibold">{{ app.Farmer.name }}</span>
+                            </td>
+                            <td>
+                                <i class="bi bi-geo-alt text-danger me-1"></i>{{ app.Farmer.location }}
+                            </td>
+                            <td>
+                                <strong class="text-success">₹{{ app.Farmer.price }}</strong>
+                            </td>
+                            <td>
+                                {{ app.Farmer.quantity }} Quintals
+                            </td>
+                            <td class="small text-muted">
+                                {{ app.date_applied|date:"M d, Y" }}
+                            </td>
+                            <td>
+                                <div class="d-flex gap-1">
+                                    <a href="{% url 'farmer-detail' app.Farmer.pk %}" class="btn btn-sm btn-outline-primary" title="View Details">
+                                        <i class="bi bi-eye"></i> View
+                                    </a>
+                                    <a href="tel:{{ app.Farmer.phone_number }}" class="btn btn-sm btn-outline-success" title="Call Farmer">
+                                        <i class="bi bi-telephone"></i>
+                                    </a>
+                                    <a href="https://wa.me/{{ app.Farmer.phone_number }}" target="_blank" class="btn btn-sm btn-success" title="WhatsApp Farmer">
+                                        <i class="bi bi-whatsapp"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% else %}
+    <div class="card card-custom bg-white p-5 text-center">
+        <div class="display-5 text-muted mb-3">
+            <i class="bi bi-chat-square-dots"></i>
+        </div>
+        <h5 class="fw-bold text-dark">No Inquiries Sent Yet</h5>
+        <p class="text-muted">Browse available crops across Dakshina Kannada &amp; Udupi to connect directly with farmers.</p>
+        <div>
+            <a href="{% url 'farmer-list' %}" class="btn btn-agri-primary">
+                <i class="bi bi-shop me-1"></i> Browse Produce Listings
+            </a>
+        </div>
+    </div>
+{% endif %}
+{% endblock %}
