@@ -13,6 +13,9 @@
         </div>
 
         <div class="card card-custom bg-white overflow-hidden mb-4">
+            <!-- Crop Image -->
+            <img src="{{ farmer.crop_image }}" class="w-100" style="height: 300px; object-fit: cover;" alt="{{ farmer.crop_name.name }}">
+
             <!-- Header bar -->
             <div class="p-4 text-white" style="background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 100%);">
                 <div class="d-flex flex-wrap justify-content-between align-items-center gap-2">
@@ -73,7 +76,7 @@
                 </div>
 
                 <!-- Farm & Produce Details Table -->
-                <h5 class="fw-bold text-dark mb-3"><i class="bi bi-info-circle me-2 text-success"></i>Produce &amp; Verification Details</h5>
+                <h5 class="fw-bold text-dark mb-3"><i class="bi bi-info-circle me-2 text-success"></i>Produce Information</h5>
                 <div class="table-responsive mb-4">
                     <table class="table table-bordered table-striped align-middle mb-0">
                         <tbody>
@@ -91,43 +94,34 @@
                             </tr>
                             <tr>
                                 <th class="bg-light text-secondary">Location / Taluk</th>
-                                <td><i class="bi bi-geo-alt text-danger me-1"></i>{{ farmer.location }} (Dakshina Kannada / Udupi)</td>
+                                <td><i class="bi bi-geo-alt text-danger me-1"></i>{{ farmer.location }} (Karnataka)</td>
                             </tr>
                             <tr>
-                                <th class="bg-light text-secondary">Ration Card Number</th>
-                                <td>
-                                    <code>{{ farmer.ration_card_number }}</code>
-                                    <span class="badge bg-success-subtle text-success border border-success-subtle ms-2">
-                                        <i class="bi bi-check-circle me-1"></i>Verified Farmer ID
-                                    </span>
-                                </td>
+                                <th class="bg-light text-secondary">Farm Size</th>
+                                <td>{{ farmer.farm_size }} Acres</td>
+                            </tr>
+                            <tr>
+                                <th class="bg-light text-secondary">Quality Grade</th>
+                                <td>{{ farmer.quality }} / 10</td>
                             </tr>
                             {% if farmer.posted_by %}
                             <tr>
-                                <th class="bg-light text-secondary">Platform User</th>
-                                <td>{{ farmer.posted_by.username }} ({{ farmer.posted_by.email|default:"No email specified" }})</td>
+                                <th class="bg-light text-secondary">Listed By</th>
+                                <td>{{ farmer.posted_by.username }}</td>
                             </tr>
                             {% endif %}
                         </tbody>
                     </table>
                 </div>
 
-                <!-- Direct Contact & Connect Section -->
+                <!-- Connect Section -->
                 <div class="p-4 rounded-3 border bg-light-subtle">
                     <div class="row align-items-center g-3">
                         <div class="col-md-7">
                             <h5 class="fw-bold text-dark mb-1">
-                                <i class="bi bi-telephone-outbound me-2 text-success"></i>Direct Contact Details
+                                <i class="bi bi-shield-check me-2 text-success"></i>Direct Connection &amp; Pricing
                             </h5>
-                            <p class="text-muted small mb-2">Connect directly with the grower to discuss logistics, quality inspection, and payment.</p>
-                            <div class="d-flex flex-wrap gap-2 align-items-center">
-                                <a href="tel:{{ farmer.phone_number }}" class="btn btn-outline-success btn-sm">
-                                    <i class="bi bi-telephone-fill me-1"></i> Call: {{ farmer.phone_number }}
-                                </a>
-                                <a href="https://wa.me/{{ farmer.phone_number }}" target="_blank" class="btn btn-success btn-sm">
-                                    <i class="bi bi-whatsapp me-1"></i> WhatsApp Farmer
-                                </a>
-                            </div>
+                            <p class="text-muted small mb-0">Connect directly on Krishaka Mitram to purchase or make an offer at fair farmer-gate pricing.</p>
                         </div>
                         <div class="col-md-5 text-md-end">
                             {% if user.is_authenticated %}

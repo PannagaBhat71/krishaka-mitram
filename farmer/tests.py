@@ -59,8 +59,10 @@ class KrishakaMitramTests(TestCase):
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'Ramesh Poojary')
-        self.assertContains(response, '9876543210')
         self.assertContains(response, 'Bantwal, Dakshina Kannada')
+        self.assertNotContains(response, '9876543210')
+        self.assertNotContains(response, 'RC987654321')
+        self.assertIn('images.unsplash.com', response.content.decode('utf-8'))
         self.assertTemplateUsed(response, 'farmer/farmer_detail.html')
 
     def test_farmer_create_view_requires_login(self):

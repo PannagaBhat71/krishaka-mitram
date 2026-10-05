@@ -1,0 +1,1892 @@
+[
+    {
+        "model": "myapp.crop",
+        "pk": 1,
+        "fields": {
+            "name": "Paddy (Rice)"
+        }
+    },
+    {
+        "model": "myapp.crop",
+        "pk": 2,
+        "fields": {
+            "name": "Arecanut"
+        }
+    },
+    {
+        "model": "myapp.crop",
+        "pk": 3,
+        "fields": {
+            "name": "Coconut"
+        }
+    },
+    {
+        "model": "myapp.crop",
+        "pk": 4,
+        "fields": {
+            "name": "Cashew"
+        }
+    },
+    {
+        "model": "myapp.crop",
+        "pk": 5,
+        "fields": {
+            "name": "Jowar"
+        }
+    },
+    {
+        "model": "myapp.crop",
+        "pk": 6,
+        "fields": {
+            "name": "Sugarcane"
+        }
+    },
+    {
+        "model": "myapp.crop",
+        "pk": 7,
+        "fields": {
+            "name": "Maize"
+        }
+    },
+    {
+        "model": "myapp.crop",
+        "pk": 8,
+        "fields": {
+            "name": "Cotton"
+        }
+    },
+    {
+        "model": "myapp.crop",
+        "pk": 9,
+        "fields": {
+            "name": "Toor Dal"
+        }
+    },
+    {
+        "model": "myapp.crop",
+        "pk": 10,
+        "fields": {
+            "name": "Ragi"
+        }
+    },
+    {
+        "model": "auth.user",
+        "pk": 1,
+        "fields": {
+            "username": "user1",
+            "email": "user1@example.com",
+            "is_active": true
+        }
+    },
+    {
+        "model": "auth.user",
+        "pk": 2,
+        "fields": {
+            "username": "user2",
+            "email": "user2@example.com",
+            "is_active": true
+        }
+    },
+    {
+        "model": "auth.user",
+        "pk": 3,
+        "fields": {
+            "username": "user3",
+            "email": "user3@example.com",
+            "is_active": true
+        }
+    },
+    {
+        "model": "auth.user",
+        "pk": 4,
+        "fields": {
+            "username": "user4",
+            "email": "user4@example.com",
+            "is_active": true
+        }
+    },
+    {
+        "model": "auth.user",
+        "pk": 5,
+        "fields": {
+            "username": "user5",
+            "email": "user5@example.com",
+            "is_active": true
+        }
+    },
+    {
+        "model": "auth.user",
+        "pk": 6,
+        "fields": {
+            "username": "user6",
+            "email": "user6@example.com",
+            "is_active": true
+        }
+    },
+    {
+        "model": "auth.user",
+        "pk": 7,
+        "fields": {
+            "username": "user7",
+            "email": "user7@example.com",
+            "is_active": true
+        }
+    },
+    {
+        "model": "auth.user",
+        "pk": 8,
+        "fields": {
+            "username": "user8",
+            "email": "user8@example.com",
+            "is_active": true
+        }
+    },
+    {
+        "model": "auth.user",
+        "pk": 9,
+        "fields": {
+            "username": "user9",
+            "email": "user9@example.com",
+            "is_active": true
+        }
+    },
+    {
+        "model": "auth.user",
+        "pk": 10,
+        "fields": {
+            "username": "user10",
+            "email": "user10@example.com",
+            "is_active": true
+        }
+    },
+    {
+        "model": "auth.user",
+        "pk": 11,
+        "fields": {
+            "username": "user11",
+            "email": "user11@example.com",
+            "is_active": true
+        }
+    },
+    {
+        "model": "auth.user",
+        "pk": 12,
+        "fields": {
+            "username": "user12",
+            "email": "user12@example.com",
+            "is_active": true
+        }
+    },
+    {
+        "model": "auth.user",
+        "pk": 13,
+        "fields": {
+            "username": "user13",
+            "email": "user13@example.com",
+            "is_active": true
+        }
+    },
+    {
+        "model": "auth.user",
+        "pk": 14,
+        "fields": {
+            "username": "user14",
+            "email": "user14@example.com",
+            "is_active": true
+        }
+    },
+    {
+        "model": "auth.user",
+        "pk": 15,
+        "fields": {
+            "username": "user15",
+            "email": "user15@example.com",
+            "is_active": true
+        }
+    },
+    {
+        "model": "auth.user",
+        "pk": 16,
+        "fields": {
+            "username": "user16",
+            "email": "user16@example.com",
+            "is_active": true
+        }
+    },
+    {
+        "model": "auth.user",
+        "pk": 17,
+        "fields": {
+            "username": "user17",
+            "email": "user17@example.com",
+            "is_active": true
+        }
+    },
+    {
+        "model": "auth.user",
+        "pk": 18,
+        "fields": {
+            "username": "user18",
+            "email": "user18@example.com",
+            "is_active": true
+        }
+    },
+    {
+        "model": "auth.user",
+        "pk": 19,
+        "fields": {
+            "username": "user19",
+            "email": "user19@example.com",
+            "is_active": true
+        }
+    },
+    {
+        "model": "auth.user",
+        "pk": 20,
+        "fields": {
+            "username": "user20",
+            "email": "user20@example.com",
+            "is_active": true
+        }
+    },
+    {
+        "model": "myapp.farmer",
+        "pk": 1,
+        "fields": {
+            "name": "Radhika Rao",
+            "crop_type": 8,
+            "crop_name": 8,
+            "price": "40122.45",
+            "location": "Sahyadri Campus, Mangaluru",
+            "farm_size": "8.72",
+            "quality": "7.94",
+            "quantity": "275.04",
+            "date_posted": "2026-09-15",
+            "phone_number": "9936470485",
+            "ration_card_number": "KA8837678359",
+            "posted_by": 15
+        }
+    },
+    {
+        "model": "myapp.farmer",
+        "pk": 2,
+        "fields": {
+            "name": "Ganesh Hiremath",
+            "crop_type": 9,
+            "crop_name": 9,
+            "price": "19222.48",
+            "location": "Raichur, Raichur",
+            "farm_size": "21.59",
+            "quality": "7.23",
+            "quantity": "1022.66",
+            "date_posted": "2026-08-11",
+            "phone_number": "9728979879",
+            "ration_card_number": "KA2901524015",
+            "posted_by": 7
+        }
+    },
+    {
+        "model": "myapp.farmer",
+        "pk": 3,
+        "fields": {
+            "name": "Suresh Rao",
+            "crop_type": 3,
+            "crop_name": 3,
+            "price": "20247.08",
+            "location": "Kundapura, Udupi",
+            "farm_size": "47.22",
+            "quality": "9.13",
+            "quantity": "922.74",
+            "date_posted": "2026-08-31",
+            "phone_number": "9747815227",
+            "ration_card_number": "KA4731800716",
+            "posted_by": 9
+        }
+    },
+    {
+        "model": "myapp.farmer",
+        "pk": 4,
+        "fields": {
+            "name": "Yash Rao",
+            "crop_type": 6,
+            "crop_name": 6,
+            "price": "1526.13",
+            "location": "Belthangady, Dakshina Kannada",
+            "farm_size": "3.12",
+            "quality": "8.12",
+            "quantity": "337.94",
+            "date_posted": "2026-09-21",
+            "phone_number": "9920816984",
+            "ration_card_number": "KA9839533178",
+            "posted_by": 15
+        }
+    },
+    {
+        "model": "myapp.farmer",
+        "pk": 5,
+        "fields": {
+            "name": "Shilpa Patil",
+            "crop_type": 4,
+            "crop_name": 4,
+            "price": "34676.66",
+            "location": "Hubballi, Dharwad",
+            "farm_size": "45.57",
+            "quality": "6.17",
+            "quantity": "1432.1",
+            "date_posted": "2026-09-22",
+            "phone_number": "9955290552",
+            "ration_card_number": "KA6885602598",
+            "posted_by": 13
+        }
+    },
+    {
+        "model": "myapp.farmer",
+        "pk": 6,
+        "fields": {
+            "name": "Veena Kulkarni",
+            "crop_type": 6,
+            "crop_name": 6,
+            "price": "39845.98",
+            "location": "Kaup, Udupi",
+            "farm_size": "21.34",
+            "quality": "7.03",
+            "quantity": "1993.73",
+            "date_posted": "2026-10-03",
+            "phone_number": "9140630872",
+            "ration_card_number": "KA5117242736",
+            "posted_by": 13
+        }
+    },
+    {
+        "model": "myapp.farmer",
+        "pk": 7,
+        "fields": {
+            "name": "Suresh Kulkarni",
+            "crop_type": 8,
+            "crop_name": 8,
+            "price": "20696.15",
+            "location": "Bagalkot, Bagalkot",
+            "farm_size": "39.05",
+            "quality": "5.52",
+            "quantity": "1067.47",
+            "date_posted": "2026-09-27",
+            "phone_number": "9709798484",
+            "ration_card_number": "KA7889213803",
+            "posted_by": 10
+        }
+    },
+    {
+        "model": "myapp.farmer",
+        "pk": 8,
+        "fields": {
+            "name": "Shilpa Nayak",
+            "crop_type": 5,
+            "crop_name": 5,
+            "price": "5139.51",
+            "location": "Sullia, Dakshina Kannada",
+            "farm_size": "8.65",
+            "quality": "5.02",
+            "quantity": "756.27",
+            "date_posted": "2026-08-07",
+            "phone_number": "9850721695",
+            "ration_card_number": "KA6205243470",
+            "posted_by": 20
+        }
+    },
+    {
+        "model": "myapp.farmer",
+        "pk": 9,
+        "fields": {
+            "name": "Kavya Naidu",
+            "crop_type": 8,
+            "crop_name": 8,
+            "price": "19318.89",
+            "location": "Raichur, Raichur",
+            "farm_size": "41.21",
+            "quality": "7.37",
+            "quantity": "1455.34",
+            "date_posted": "2026-09-04",
+            "phone_number": "9447421914",
+            "ration_card_number": "KA8851570029",
+            "posted_by": 12
+        }
+    },
+    {
+        "model": "myapp.farmer",
+        "pk": 10,
+        "fields": {
+            "name": "Ganesh Shetty",
+            "crop_type": 4,
+            "crop_name": 4,
+            "price": "25228.1",
+            "location": "Bantwal, Dakshina Kannada",
+            "farm_size": "27.6",
+            "quality": "8.14",
+            "quantity": "1027.29",
+            "date_posted": "2026-08-12",
+            "phone_number": "9199135953",
+            "ration_card_number": "KA7951231865",
+            "posted_by": 2
+        }
+    },
+    {
+        "model": "myapp.farmer",
+        "pk": 11,
+        "fields": {
+            "name": "Veena Kulkarni",
+            "crop_type": 3,
+            "crop_name": 3,
+            "price": "2981.0",
+            "location": "Kaup, Udupi",
+            "farm_size": "3.31",
+            "quality": "9.17",
+            "quantity": "1390.93",
+            "date_posted": "2026-09-28",
+            "phone_number": "9990221696",
+            "ration_card_number": "KA2117353322",
+            "posted_by": 12
+        }
+    },
+    {
+        "model": "myapp.farmer",
+        "pk": 12,
+        "fields": {
+            "name": "Siddaramaiah Hegde",
+            "crop_type": 9,
+            "crop_name": 9,
+            "price": "27661.97",
+            "location": "Belagavi, Belagavi",
+            "farm_size": "25.21",
+            "quality": "9.24",
+            "quantity": "344.27",
+            "date_posted": "2026-10-05",
+            "phone_number": "9684984548",
+            "ration_card_number": "KA8607776230",
+            "posted_by": 10
+        }
+    },
+    {
+        "model": "myapp.farmer",
+        "pk": 13,
+        "fields": {
+            "name": "Anand Nayak",
+            "crop_type": 10,
+            "crop_name": 10,
+            "price": "29010.08",
+            "location": "Bagalkot, Bagalkot",
+            "farm_size": "18.28",
+            "quality": "8.99",
+            "quantity": "1263.47",
+            "date_posted": "2026-08-26",
+            "phone_number": "9849190649",
+            "ration_card_number": "KA8419185660",
+            "posted_by": 5
+        }
+    },
+    {
+        "model": "myapp.farmer",
+        "pk": 14,
+        "fields": {
+            "name": "Manjunath Kulkarni",
+            "crop_type": 8,
+            "crop_name": 8,
+            "price": "22827.74",
+            "location": "Udupi, Udupi",
+            "farm_size": "3.36",
+            "quality": "7.29",
+            "quantity": "933.4",
+            "date_posted": "2026-09-26",
+            "phone_number": "9729305443",
+            "ration_card_number": "KA3850456047",
+            "posted_by": 2
+        }
+    },
+    {
+        "model": "myapp.farmer",
+        "pk": 15,
+        "fields": {
+            "name": "Yash Bhat",
+            "crop_type": 4,
+            "crop_name": 4,
+            "price": "32511.53",
+            "location": "Bidar, Bidar",
+            "farm_size": "18.9",
+            "quality": "8.15",
+            "quantity": "1524.71",
+            "date_posted": "2026-09-11",
+            "phone_number": "9540974843",
+            "ration_card_number": "KA6110826732",
+            "posted_by": 8
+        }
+    },
+    {
+        "model": "myapp.farmer",
+        "pk": 16,
+        "fields": {
+            "name": "Ganesh Hegde",
+            "crop_type": 1,
+            "crop_name": 1,
+            "price": "49760.01",
+            "location": "Puttur, Dakshina Kannada",
+            "farm_size": "32.72",
+            "quality": "9.29",
+            "quantity": "784.79",
+            "date_posted": "2026-08-27",
+            "phone_number": "9481726572",
+            "ration_card_number": "KA5892516277",
+            "posted_by": 19
+        }
+    },
+    {
+        "model": "myapp.farmer",
+        "pk": 17,
+        "fields": {
+            "name": "Ganesh Rao",
+            "crop_type": 2,
+            "crop_name": 2,
+            "price": "32544.68",
+            "location": "Kaup, Udupi",
+            "farm_size": "46.36",
+            "quality": "8.82",
+            "quantity": "1192.8",
+            "date_posted": "2026-08-19",
+            "phone_number": "9280273812",
+            "ration_card_number": "KA3136411405",
+            "posted_by": 2
+        }
+    },
+    {
+        "model": "myapp.farmer",
+        "pk": 18,
+        "fields": {
+            "name": "Shruthi Nayak",
+            "crop_type": 4,
+            "crop_name": 4,
+            "price": "41063.18",
+            "location": "Hubballi, Dharwad",
+            "farm_size": "34.82",
+            "quality": "6.49",
+            "quantity": "1036.07",
+            "date_posted": "2026-08-13",
+            "phone_number": "9178301004",
+            "ration_card_number": "KA4777356117",
+            "posted_by": 10
+        }
+    },
+    {
+        "model": "myapp.farmer",
+        "pk": 19,
+        "fields": {
+            "name": "Rishab Karanth",
+            "crop_type": 1,
+            "crop_name": 1,
+            "price": "9813.9",
+            "location": "Bagalkot, Bagalkot",
+            "farm_size": "14.92",
+            "quality": "5.68",
+            "quantity": "404.58",
+            "date_posted": "2026-08-23",
+            "phone_number": "9513529693",
+            "ration_card_number": "KA9191713829",
+            "posted_by": 10
+        }
+    },
+    {
+        "model": "myapp.farmer",
+        "pk": 20,
+        "fields": {
+            "name": "Radhika Gowda",
+            "crop_type": 2,
+            "crop_name": 2,
+            "price": "44231.24",
+            "location": "Kalaburagi, Kalaburagi",
+            "farm_size": "48.23",
+            "quality": "9.1",
+            "quantity": "52.24",
+            "date_posted": "2026-08-06",
+            "phone_number": "9789756602",
+            "ration_card_number": "KA1147820176",
+            "posted_by": 2
+        }
+    },
+    {
+        "model": "myapp.farmer",
+        "pk": 21,
+        "fields": {
+            "name": "Pannaga Hiremath",
+            "crop_type": 2,
+            "crop_name": 2,
+            "price": "27775.23",
+            "location": "Bidar, Bidar",
+            "farm_size": "27.88",
+            "quality": "6.38",
+            "quantity": "409.48",
+            "date_posted": "2026-08-25",
+            "phone_number": "9955139007",
+            "ration_card_number": "KA2064911657",
+            "posted_by": 12
+        }
+    },
+    {
+        "model": "myapp.farmer",
+        "pk": 22,
+        "fields": {
+            "name": "Karthik Desai",
+            "crop_type": 5,
+            "crop_name": 5,
+            "price": "38640.18",
+            "location": "Kaup, Udupi",
+            "farm_size": "37.12",
+            "quality": "6.93",
+            "quantity": "1283.44",
+            "date_posted": "2026-08-06",
+            "phone_number": "9453118601",
+            "ration_card_number": "KA8348965512",
+            "posted_by": 18
+        }
+    },
+    {
+        "model": "myapp.farmer",
+        "pk": 23,
+        "fields": {
+            "name": "Rishab Desai",
+            "crop_type": 10,
+            "crop_name": 10,
+            "price": "12074.97",
+            "location": "Puttur, Dakshina Kannada",
+            "farm_size": "33.84",
+            "quality": "9.57",
+            "quantity": "1081.88",
+            "date_posted": "2026-08-29",
+            "phone_number": "9316539702",
+            "ration_card_number": "KA1188225580",
+            "posted_by": 1
+        }
+    },
+    {
+        "model": "myapp.farmer",
+        "pk": 24,
+        "fields": {
+            "name": "Veena Rao",
+            "crop_type": 8,
+            "crop_name": 8,
+            "price": "45396.43",
+            "location": "Kundapura, Udupi",
+            "farm_size": "6.68",
+            "quality": "8.14",
+            "quantity": "741.24",
+            "date_posted": "2026-09-18",
+            "phone_number": "9242467847",
+            "ration_card_number": "KA8689496697",
+            "posted_by": 10
+        }
+    },
+    {
+        "model": "myapp.farmer",
+        "pk": 25,
+        "fields": {
+            "name": "Ramesh Desai",
+            "crop_type": 2,
+            "crop_name": 2,
+            "price": "13815.76",
+            "location": "Sahyadri Campus, Mangaluru",
+            "farm_size": "35.56",
+            "quality": "7.33",
+            "quantity": "1962.42",
+            "date_posted": "2026-09-02",
+            "phone_number": "9485787056",
+            "ration_card_number": "KA1727047206",
+            "posted_by": 4
+        }
+    },
+    {
+        "model": "myapp.farmer",
+        "pk": 26,
+        "fields": {
+            "name": "Praveen Hegde",
+            "crop_type": 3,
+            "crop_name": 3,
+            "price": "48907.72",
+            "location": "Kaup, Udupi",
+            "farm_size": "25.88",
+            "quality": "7.59",
+            "quantity": "524.74",
+            "date_posted": "2026-09-26",
+            "phone_number": "9289448613",
+            "ration_card_number": "KA4601422837",
+            "posted_by": 19
+        }
+    },
+    {
+        "model": "myapp.farmer",
+        "pk": 27,
+        "fields": {
+            "name": "Shruthi Hegde",
+            "crop_type": 9,
+            "crop_name": 9,
+            "price": "14129.92",
+            "location": "Karkala, Udupi",
+            "farm_size": "4.05",
+            "quality": "9.32",
+            "quantity": "1344.65",
+            "date_posted": "2026-09-11",
+            "phone_number": "9824159630",
+            "ration_card_number": "KA9749029844",
+            "posted_by": 13
+        }
+    },
+    {
+        "model": "myapp.farmer",
+        "pk": 28,
+        "fields": {
+            "name": "Basavaraj Gowda",
+            "crop_type": 2,
+            "crop_name": 2,
+            "price": "19070.4",
+            "location": "Udupi, Udupi",
+            "farm_size": "19.31",
+            "quality": "8.28",
+            "quantity": "1874.02",
+            "date_posted": "2026-09-02",
+            "phone_number": "9764614141",
+            "ration_card_number": "KA4323204014",
+            "posted_by": 1
+        }
+    },
+    {
+        "model": "myapp.farmer",
+        "pk": 29,
+        "fields": {
+            "name": "Suresh Karanth",
+            "crop_type": 5,
+            "crop_name": 5,
+            "price": "8502.57",
+            "location": "Gadag, Gadag",
+            "farm_size": "3.19",
+            "quality": "5.48",
+            "quantity": "1852.85",
+            "date_posted": "2026-09-24",
+            "phone_number": "9609891481",
+            "ration_card_number": "KA9627291344",
+            "posted_by": 16
+        }
+    },
+    {
+        "model": "myapp.farmer",
+        "pk": 30,
+        "fields": {
+            "name": "Veena Prabhu",
+            "crop_type": 7,
+            "crop_name": 7,
+            "price": "43710.08",
+            "location": "Raichur, Raichur",
+            "farm_size": "14.89",
+            "quality": "5.12",
+            "quantity": "1071.04",
+            "date_posted": "2026-09-03",
+            "phone_number": "9504226620",
+            "ration_card_number": "KA9955422718",
+            "posted_by": 10
+        }
+    },
+    {
+        "model": "myapp.farmer",
+        "pk": 31,
+        "fields": {
+            "name": "Manjunath Hiremath",
+            "crop_type": 1,
+            "crop_name": 1,
+            "price": "42484.83",
+            "location": "Mangaluru, Dakshina Kannada",
+            "farm_size": "23.56",
+            "quality": "6.79",
+            "quantity": "1122.38",
+            "date_posted": "2026-09-20",
+            "phone_number": "9774041848",
+            "ration_card_number": "KA1615899883",
+            "posted_by": 4
+        }
+    },
+    {
+        "model": "myapp.farmer",
+        "pk": 32,
+        "fields": {
+            "name": "Shilpa Prabhu",
+            "crop_type": 1,
+            "crop_name": 1,
+            "price": "34446.8",
+            "location": "Udupi, Udupi",
+            "farm_size": "26.02",
+            "quality": "9.45",
+            "quantity": "1325.45",
+            "date_posted": "2026-09-24",
+            "phone_number": "9288383576",
+            "ration_card_number": "KA7394290031",
+            "posted_by": 3
+        }
+    },
+    {
+        "model": "myapp.farmer",
+        "pk": 33,
+        "fields": {
+            "name": "Ramesh Hiremath",
+            "crop_type": 5,
+            "crop_name": 5,
+            "price": "33159.99",
+            "location": "Bantwal, Dakshina Kannada",
+            "farm_size": "34.86",
+            "quality": "7.06",
+            "quantity": "1906.73",
+            "date_posted": "2026-08-21",
+            "phone_number": "9409857920",
+            "ration_card_number": "KA5065824103",
+            "posted_by": 10
+        }
+    },
+    {
+        "model": "myapp.farmer",
+        "pk": 34,
+        "fields": {
+            "name": "Manjunath Bhat",
+            "crop_type": 5,
+            "crop_name": 5,
+            "price": "34207.13",
+            "location": "Udupi, Udupi",
+            "farm_size": "24.91",
+            "quality": "6.27",
+            "quantity": "1385.27",
+            "date_posted": "2026-09-18",
+            "phone_number": "9666531736",
+            "ration_card_number": "KA5218899474",
+            "posted_by": 2
+        }
+    },
+    {
+        "model": "myapp.farmer",
+        "pk": 35,
+        "fields": {
+            "name": "Pannaga Kamath",
+            "crop_type": 4,
+            "crop_name": 4,
+            "price": "46846.05",
+            "location": "Sullia, Dakshina Kannada",
+            "farm_size": "33.5",
+            "quality": "5.36",
+            "quantity": "1726.78",
+            "date_posted": "2026-08-09",
+            "phone_number": "9897462705",
+            "ration_card_number": "KA9239908094",
+            "posted_by": 5
+        }
+    },
+    {
+        "model": "myapp.farmer",
+        "pk": 36,
+        "fields": {
+            "name": "Shilpa Karanth",
+            "crop_type": 8,
+            "crop_name": 8,
+            "price": "32111.67",
+            "location": "Brahmavara, Udupi",
+            "farm_size": "14.71",
+            "quality": "8.37",
+            "quantity": "763.52",
+            "date_posted": "2026-10-03",
+            "phone_number": "9432607457",
+            "ration_card_number": "KA5752209750",
+            "posted_by": 14
+        }
+    },
+    {
+        "model": "myapp.farmer",
+        "pk": 37,
+        "fields": {
+            "name": "Rishab Prabhu",
+            "crop_type": 1,
+            "crop_name": 1,
+            "price": "18074.98",
+            "location": "Koppal, Koppal",
+            "farm_size": "5.24",
+            "quality": "9.44",
+            "quantity": "1969.8",
+            "date_posted": "2026-08-16",
+            "phone_number": "9358325238",
+            "ration_card_number": "KA6990975158",
+            "posted_by": 7
+        }
+    },
+    {
+        "model": "myapp.farmer",
+        "pk": 38,
+        "fields": {
+            "name": "Anand Kulkarni",
+            "crop_type": 3,
+            "crop_name": 3,
+            "price": "15570.42",
+            "location": "Bidar, Bidar",
+            "farm_size": "5.94",
+            "quality": "8.16",
+            "quantity": "963.02",
+            "date_posted": "2026-08-17",
+            "phone_number": "9629956139",
+            "ration_card_number": "KA8221598885",
+            "posted_by": 19
+        }
+    },
+    {
+        "model": "myapp.farmer",
+        "pk": 39,
+        "fields": {
+            "name": "Naveen Gowda",
+            "crop_type": 9,
+            "crop_name": 9,
+            "price": "35729.33",
+            "location": "Mangaluru, Dakshina Kannada",
+            "farm_size": "6.54",
+            "quality": "9.95",
+            "quantity": "1411.33",
+            "date_posted": "2026-08-12",
+            "phone_number": "9682188830",
+            "ration_card_number": "KA4059978121",
+            "posted_by": 13
+        }
+    },
+    {
+        "model": "myapp.farmer",
+        "pk": 40,
+        "fields": {
+            "name": "Basavaraj Shetty",
+            "crop_type": 7,
+            "crop_name": 7,
+            "price": "44472.08",
+            "location": "Dharwad, Dharwad",
+            "farm_size": "38.9",
+            "quality": "9.57",
+            "quantity": "1329.25",
+            "date_posted": "2026-08-30",
+            "phone_number": "9746263366",
+            "ration_card_number": "KA2928709393",
+            "posted_by": 16
+        }
+    },
+    {
+        "model": "myapp.farmer",
+        "pk": 41,
+        "fields": {
+            "name": "Kavya Shetty",
+            "crop_type": 6,
+            "crop_name": 6,
+            "price": "6606.23",
+            "location": "Belthangady, Dakshina Kannada",
+            "farm_size": "41.71",
+            "quality": "9.33",
+            "quantity": "69.59",
+            "date_posted": "2026-10-04",
+            "phone_number": "9789375692",
+            "ration_card_number": "KA4226161669",
+            "posted_by": 20
+        }
+    },
+    {
+        "model": "myapp.farmer",
+        "pk": 42,
+        "fields": {
+            "name": "Ravi Desai",
+            "crop_type": 10,
+            "crop_name": 10,
+            "price": "15273.85",
+            "location": "Bantwal, Dakshina Kannada",
+            "farm_size": "21.41",
+            "quality": "6.23",
+            "quantity": "1144.81",
+            "date_posted": "2026-08-17",
+            "phone_number": "9219219340",
+            "ration_card_number": "KA7799272937",
+            "posted_by": 6
+        }
+    },
+    {
+        "model": "myapp.farmer",
+        "pk": 43,
+        "fields": {
+            "name": "Radhika Desai",
+            "crop_type": 3,
+            "crop_name": 3,
+            "price": "9783.4",
+            "location": "Kaup, Udupi",
+            "farm_size": "44.26",
+            "quality": "5.77",
+            "quantity": "1519.36",
+            "date_posted": "2026-08-18",
+            "phone_number": "9584353280",
+            "ration_card_number": "KA6361563484",
+            "posted_by": 12
+        }
+    },
+    {
+        "model": "myapp.farmer",
+        "pk": 44,
+        "fields": {
+            "name": "Kavya Prabhu",
+            "crop_type": 3,
+            "crop_name": 3,
+            "price": "31373.19",
+            "location": "Mangaluru, Dakshina Kannada",
+            "farm_size": "47.64",
+            "quality": "5.63",
+            "quantity": "959.13",
+            "date_posted": "2026-10-01",
+            "phone_number": "9221011257",
+            "ration_card_number": "KA9597275746",
+            "posted_by": 18
+        }
+    },
+    {
+        "model": "myapp.farmer",
+        "pk": 45,
+        "fields": {
+            "name": "Karthik Kulkarni",
+            "crop_type": 6,
+            "crop_name": 6,
+            "price": "42185.46",
+            "location": "Karkala, Udupi",
+            "farm_size": "39.31",
+            "quality": "5.01",
+            "quantity": "1554.06",
+            "date_posted": "2026-09-10",
+            "phone_number": "9927310435",
+            "ration_card_number": "KA2912036114",
+            "posted_by": 13
+        }
+    },
+    {
+        "model": "myapp.farmer",
+        "pk": 46,
+        "fields": {
+            "name": "Anand Patil",
+            "crop_type": 8,
+            "crop_name": 8,
+            "price": "34740.54",
+            "location": "Kalaburagi, Kalaburagi",
+            "farm_size": "9.42",
+            "quality": "6.67",
+            "quantity": "1836.12",
+            "date_posted": "2026-09-25",
+            "phone_number": "9668020021",
+            "ration_card_number": "KA2489393072",
+            "posted_by": 9
+        }
+    },
+    {
+        "model": "myapp.farmer",
+        "pk": 47,
+        "fields": {
+            "name": "Radhika Rao",
+            "crop_type": 6,
+            "crop_name": 6,
+            "price": "1731.09",
+            "location": "Hubballi, Dharwad",
+            "farm_size": "32.3",
+            "quality": "6.64",
+            "quantity": "1410.55",
+            "date_posted": "2026-08-16",
+            "phone_number": "9622943781",
+            "ration_card_number": "KA1716591067",
+            "posted_by": 7
+        }
+    },
+    {
+        "model": "myapp.farmer",
+        "pk": 48,
+        "fields": {
+            "name": "Siddaramaiah Kulkarni",
+            "crop_type": 9,
+            "crop_name": 9,
+            "price": "48330.55",
+            "location": "Kundapura, Udupi",
+            "farm_size": "18.91",
+            "quality": "6.12",
+            "quantity": "1286.81",
+            "date_posted": "2026-09-06",
+            "phone_number": "9816318170",
+            "ration_card_number": "KA9199099183",
+            "posted_by": 10
+        }
+    },
+    {
+        "model": "myapp.farmer",
+        "pk": 49,
+        "fields": {
+            "name": "Anand Patil",
+            "crop_type": 2,
+            "crop_name": 2,
+            "price": "35561.03",
+            "location": "Puttur, Dakshina Kannada",
+            "farm_size": "23.86",
+            "quality": "9.41",
+            "quantity": "291.42",
+            "date_posted": "2026-10-03",
+            "phone_number": "9745810106",
+            "ration_card_number": "KA9103915778",
+            "posted_by": 18
+        }
+    },
+    {
+        "model": "myapp.farmer",
+        "pk": 50,
+        "fields": {
+            "name": "Manjunath Gowda",
+            "crop_type": 5,
+            "crop_name": 5,
+            "price": "18578.58",
+            "location": "Karkala, Udupi",
+            "farm_size": "49.41",
+            "quality": "5.8",
+            "quantity": "1877.47",
+            "date_posted": "2026-10-05",
+            "phone_number": "9467181435",
+            "ration_card_number": "KA9252627996",
+            "posted_by": 1
+        }
+    },
+    {
+        "model": "myapp.farmer",
+        "pk": 51,
+        "fields": {
+            "name": "Yash Kulkarni",
+            "crop_type": 2,
+            "crop_name": 2,
+            "price": "4118.61",
+            "location": "Kundapura, Udupi",
+            "farm_size": "43.01",
+            "quality": "6.14",
+            "quantity": "1989.53",
+            "date_posted": "2026-09-20",
+            "phone_number": "9506456525",
+            "ration_card_number": "KA4232918890",
+            "posted_by": 13
+        }
+    },
+    {
+        "model": "myapp.farmer",
+        "pk": 52,
+        "fields": {
+            "name": "Pooja Hegde",
+            "crop_type": 1,
+            "crop_name": 1,
+            "price": "14699.77",
+            "location": "Udupi, Udupi",
+            "farm_size": "4.73",
+            "quality": "8.37",
+            "quantity": "237.71",
+            "date_posted": "2026-09-29",
+            "phone_number": "9929722680",
+            "ration_card_number": "KA3318640588",
+            "posted_by": 19
+        }
+    },
+    {
+        "model": "myapp.farmer",
+        "pk": 53,
+        "fields": {
+            "name": "Pooja Kulkarni",
+            "crop_type": 7,
+            "crop_name": 7,
+            "price": "12591.88",
+            "location": "Kundapura, Udupi",
+            "farm_size": "18.53",
+            "quality": "9.13",
+            "quantity": "1446.81",
+            "date_posted": "2026-09-10",
+            "phone_number": "9643269853",
+            "ration_card_number": "KA5774184199",
+            "posted_by": 8
+        }
+    },
+    {
+        "model": "myapp.farmer",
+        "pk": 54,
+        "fields": {
+            "name": "Radhika Karanth",
+            "crop_type": 8,
+            "crop_name": 8,
+            "price": "42937.0",
+            "location": "Kaup, Udupi",
+            "farm_size": "6.7",
+            "quality": "9.25",
+            "quantity": "1838.04",
+            "date_posted": "2026-08-26",
+            "phone_number": "9696869566",
+            "ration_card_number": "KA4085227389",
+            "posted_by": 3
+        }
+    },
+    {
+        "model": "myapp.farmer",
+        "pk": 55,
+        "fields": {
+            "name": "Rakshit Kamath",
+            "crop_type": 2,
+            "crop_name": 2,
+            "price": "1842.94",
+            "location": "Brahmavara, Udupi",
+            "farm_size": "39.23",
+            "quality": "8.69",
+            "quantity": "516.22",
+            "date_posted": "2026-08-23",
+            "phone_number": "9411138825",
+            "ration_card_number": "KA5808852443",
+            "posted_by": 3
+        }
+    },
+    {
+        "model": "myapp.farmer",
+        "pk": 56,
+        "fields": {
+            "name": "Naveen Kamath",
+            "crop_type": 3,
+            "crop_name": 3,
+            "price": "11767.82",
+            "location": "Sahyadri Campus, Mangaluru",
+            "farm_size": "17.19",
+            "quality": "6.77",
+            "quantity": "1367.73",
+            "date_posted": "2026-08-26",
+            "phone_number": "9619703312",
+            "ration_card_number": "KA6768907191",
+            "posted_by": 14
+        }
+    },
+    {
+        "model": "myapp.farmer",
+        "pk": 57,
+        "fields": {
+            "name": "Shilpa Patil",
+            "crop_type": 4,
+            "crop_name": 4,
+            "price": "9815.63",
+            "location": "Sahyadri Campus, Mangaluru",
+            "farm_size": "38.01",
+            "quality": "9.02",
+            "quantity": "1550.43",
+            "date_posted": "2026-08-31",
+            "phone_number": "9358269440",
+            "ration_card_number": "KA2090043103",
+            "posted_by": 4
+        }
+    },
+    {
+        "model": "myapp.farmer",
+        "pk": 58,
+        "fields": {
+            "name": "Siddaramaiah Hegde",
+            "crop_type": 7,
+            "crop_name": 7,
+            "price": "48279.89",
+            "location": "Bagalkot, Bagalkot",
+            "farm_size": "36.35",
+            "quality": "7.7",
+            "quantity": "1711.13",
+            "date_posted": "2026-08-10",
+            "phone_number": "9821507718",
+            "ration_card_number": "KA3651734651",
+            "posted_by": 7
+        }
+    },
+    {
+        "model": "myapp.farmer",
+        "pk": 59,
+        "fields": {
+            "name": "Yash Joshi",
+            "crop_type": 9,
+            "crop_name": 9,
+            "price": "45942.03",
+            "location": "Hubballi, Dharwad",
+            "farm_size": "24.79",
+            "quality": "5.28",
+            "quantity": "1185.76",
+            "date_posted": "2026-08-15",
+            "phone_number": "9126439794",
+            "ration_card_number": "KA3905266736",
+            "posted_by": 7
+        }
+    },
+    {
+        "model": "myapp.farmer",
+        "pk": 60,
+        "fields": {
+            "name": "Praveen Hegde",
+            "crop_type": 3,
+            "crop_name": 3,
+            "price": "19975.29",
+            "location": "Mangaluru, Dakshina Kannada",
+            "farm_size": "12.69",
+            "quality": "8.36",
+            "quantity": "392.79",
+            "date_posted": "2026-09-11",
+            "phone_number": "9767747960",
+            "ration_card_number": "KA7142735815",
+            "posted_by": 17
+        }
+    },
+    {
+        "model": "myapp.buyer",
+        "pk": 1,
+        "fields": {
+            "Farmer": 42,
+            "Buyer": 18,
+            "name": "Rishab Bhat",
+            "crop_type": 10,
+            "quantity": "33.68",
+            "budget": "239597.87",
+            "message": "I am interested in procuring your produce based on the current market price. Let's connect.",
+            "date_applied": "2026-09-27T17:16:35Z"
+        }
+    },
+    {
+        "model": "myapp.buyer",
+        "pk": 2,
+        "fields": {
+            "Farmer": 43,
+            "Buyer": 17,
+            "name": "Shruthi Naidu",
+            "crop_type": 3,
+            "quantity": "138.4",
+            "budget": "123364.38",
+            "message": "I am interested in procuring your produce based on the current market price. Let's connect.",
+            "date_applied": "2026-09-26T17:16:35Z"
+        }
+    },
+    {
+        "model": "myapp.buyer",
+        "pk": 3,
+        "fields": {
+            "Farmer": 27,
+            "Buyer": 1,
+            "name": "Pooja Prabhu",
+            "crop_type": 9,
+            "quantity": "390.08",
+            "budget": "29587.94",
+            "message": "I am interested in procuring your produce based on the current market price. Let's connect.",
+            "date_applied": "2026-09-21T17:16:35Z"
+        }
+    },
+    {
+        "model": "myapp.buyer",
+        "pk": 4,
+        "fields": {
+            "Farmer": 25,
+            "Buyer": 6,
+            "name": "Shilpa Patil",
+            "crop_type": 2,
+            "quantity": "86.24",
+            "budget": "158615.81",
+            "message": "I am interested in procuring your produce based on the current market price. Let's connect.",
+            "date_applied": "2026-09-26T17:16:35Z"
+        }
+    },
+    {
+        "model": "myapp.buyer",
+        "pk": 5,
+        "fields": {
+            "Farmer": 8,
+            "Buyer": 3,
+            "name": "Yash Hegde",
+            "crop_type": 5,
+            "quantity": "178.22",
+            "budget": "60528.38",
+            "message": "I am interested in procuring your produce based on the current market price. Let's connect.",
+            "date_applied": "2026-10-02T17:16:35Z"
+        }
+    },
+    {
+        "model": "myapp.buyer",
+        "pk": 6,
+        "fields": {
+            "Farmer": 38,
+            "Buyer": 5,
+            "name": "Praveen Naidu",
+            "crop_type": 3,
+            "quantity": "322.04",
+            "budget": "335302.12",
+            "message": "I am interested in procuring your produce based on the current market price. Let's connect.",
+            "date_applied": "2026-10-05T17:16:35Z"
+        }
+    },
+    {
+        "model": "myapp.buyer",
+        "pk": 7,
+        "fields": {
+            "Farmer": 33,
+            "Buyer": 8,
+            "name": "Pannaga Patil",
+            "crop_type": 5,
+            "quantity": "337.32",
+            "budget": "168597.93",
+            "message": "I am interested in procuring your produce based on the current market price. Let's connect.",
+            "date_applied": "2026-09-21T17:16:35Z"
+        }
+    },
+    {
+        "model": "myapp.buyer",
+        "pk": 8,
+        "fields": {
+            "Farmer": 28,
+            "Buyer": 3,
+            "name": "Pooja Bhat",
+            "crop_type": 2,
+            "quantity": "27.67",
+            "budget": "293676.5",
+            "message": "I am interested in procuring your produce based on the current market price. Let's connect.",
+            "date_applied": "2026-09-30T17:16:35Z"
+        }
+    },
+    {
+        "model": "myapp.buyer",
+        "pk": 9,
+        "fields": {
+            "Farmer": 55,
+            "Buyer": 20,
+            "name": "Kavya Hegde",
+            "crop_type": 2,
+            "quantity": "416.12",
+            "budget": "81836.53",
+            "message": "I am interested in procuring your produce based on the current market price. Let's connect.",
+            "date_applied": "2026-09-26T17:16:35Z"
+        }
+    },
+    {
+        "model": "myapp.buyer",
+        "pk": 10,
+        "fields": {
+            "Farmer": 39,
+            "Buyer": 18,
+            "name": "Siddaramaiah Hiremath",
+            "crop_type": 9,
+            "quantity": "384.99",
+            "budget": "285640.09",
+            "message": "I am interested in procuring your produce based on the current market price. Let's connect.",
+            "date_applied": "2026-09-22T17:16:35Z"
+        }
+    },
+    {
+        "model": "myapp.buyer",
+        "pk": 11,
+        "fields": {
+            "Farmer": 8,
+            "Buyer": 7,
+            "name": "Karthik Nayak",
+            "crop_type": 5,
+            "quantity": "145.58",
+            "budget": "244033.59",
+            "message": "I am interested in procuring your produce based on the current market price. Let's connect.",
+            "date_applied": "2026-09-22T17:16:35Z"
+        }
+    },
+    {
+        "model": "myapp.buyer",
+        "pk": 12,
+        "fields": {
+            "Farmer": 49,
+            "Buyer": 8,
+            "name": "Pannaga Kulkarni",
+            "crop_type": 2,
+            "quantity": "187.39",
+            "budget": "367456.91",
+            "message": "I am interested in procuring your produce based on the current market price. Let's connect.",
+            "date_applied": "2026-09-26T17:16:35Z"
+        }
+    },
+    {
+        "model": "myapp.buyer",
+        "pk": 13,
+        "fields": {
+            "Farmer": 38,
+            "Buyer": 4,
+            "name": "Pooja Shetty",
+            "crop_type": 3,
+            "quantity": "483.32",
+            "budget": "296909.23",
+            "message": "I am interested in procuring your produce based on the current market price. Let's connect.",
+            "date_applied": "2026-09-21T17:16:35Z"
+        }
+    },
+    {
+        "model": "myapp.buyer",
+        "pk": 14,
+        "fields": {
+            "Farmer": 49,
+            "Buyer": 14,
+            "name": "Shruthi Kamath",
+            "crop_type": 2,
+            "quantity": "230.09",
+            "budget": "330461.2",
+            "message": "I am interested in procuring your produce based on the current market price. Let's connect.",
+            "date_applied": "2026-09-26T17:16:35Z"
+        }
+    },
+    {
+        "model": "myapp.buyer",
+        "pk": 15,
+        "fields": {
+            "Farmer": 56,
+            "Buyer": 11,
+            "name": "Rishab Nayak",
+            "crop_type": 3,
+            "quantity": "404.36",
+            "budget": "249015.47",
+            "message": "I am interested in procuring your produce based on the current market price. Let's connect.",
+            "date_applied": "2026-10-05T17:16:35Z"
+        }
+    },
+    {
+        "model": "myapp.buyer",
+        "pk": 16,
+        "fields": {
+            "Farmer": 21,
+            "Buyer": 20,
+            "name": "Karthik Gowda",
+            "crop_type": 2,
+            "quantity": "472.33",
+            "budget": "460590.69",
+            "message": "I am interested in procuring your produce based on the current market price. Let's connect.",
+            "date_applied": "2026-09-24T17:16:35Z"
+        }
+    },
+    {
+        "model": "myapp.buyer",
+        "pk": 17,
+        "fields": {
+            "Farmer": 12,
+            "Buyer": 8,
+            "name": "Ganesh Hiremath",
+            "crop_type": 9,
+            "quantity": "480.87",
+            "budget": "369095.18",
+            "message": "I am interested in procuring your produce based on the current market price. Let's connect.",
+            "date_applied": "2026-09-25T17:16:35Z"
+        }
+    },
+    {
+        "model": "myapp.buyer",
+        "pk": 18,
+        "fields": {
+            "Farmer": 57,
+            "Buyer": 16,
+            "name": "Anand Nayak",
+            "crop_type": 4,
+            "quantity": "420.32",
+            "budget": "368817.31",
+            "message": "I am interested in procuring your produce based on the current market price. Let's connect.",
+            "date_applied": "2026-09-22T17:16:35Z"
+        }
+    },
+    {
+        "model": "myapp.buyer",
+        "pk": 19,
+        "fields": {
+            "Farmer": 35,
+            "Buyer": 9,
+            "name": "Ravi Naidu",
+            "crop_type": 4,
+            "quantity": "99.61",
+            "budget": "438444.75",
+            "message": "I am interested in procuring your produce based on the current market price. Let's connect.",
+            "date_applied": "2026-09-27T17:16:35Z"
+        }
+    },
+    {
+        "model": "myapp.buyer",
+        "pk": 20,
+        "fields": {
+            "Farmer": 4,
+            "Buyer": 18,
+            "name": "Radhika Kulkarni",
+            "crop_type": 6,
+            "quantity": "120.97",
+            "budget": "134765.94",
+            "message": "I am interested in procuring your produce based on the current market price. Let's connect.",
+            "date_applied": "2026-09-26T17:16:35Z"
+        }
+    },
+    {
+        "model": "myapp.buyer",
+        "pk": 21,
+        "fields": {
+            "Farmer": 32,
+            "Buyer": 4,
+            "name": "Ramesh Nayak",
+            "crop_type": 1,
+            "quantity": "68.49",
+            "budget": "324206.06",
+            "message": "I am interested in procuring your produce based on the current market price. Let's connect.",
+            "date_applied": "2026-09-20T17:16:35Z"
+        }
+    },
+    {
+        "model": "myapp.buyer",
+        "pk": 22,
+        "fields": {
+            "Farmer": 16,
+            "Buyer": 11,
+            "name": "Shruthi Patil",
+            "crop_type": 1,
+            "quantity": "281.56",
+            "budget": "176027.02",
+            "message": "I am interested in procuring your produce based on the current market price. Let's connect.",
+            "date_applied": "2026-09-26T17:16:35Z"
+        }
+    },
+    {
+        "model": "myapp.buyer",
+        "pk": 23,
+        "fields": {
+            "Farmer": 1,
+            "Buyer": 4,
+            "name": "Pooja Prabhu",
+            "crop_type": 8,
+            "quantity": "188.29",
+            "budget": "166572.48",
+            "message": "I am interested in procuring your produce based on the current market price. Let's connect.",
+            "date_applied": "2026-09-29T17:16:35Z"
+        }
+    },
+    {
+        "model": "myapp.buyer",
+        "pk": 24,
+        "fields": {
+            "Farmer": 8,
+            "Buyer": 3,
+            "name": "Karthik Karanth",
+            "crop_type": 5,
+            "quantity": "197.77",
+            "budget": "308435.83",
+            "message": "I am interested in procuring your produce based on the current market price. Let's connect.",
+            "date_applied": "2026-09-30T17:16:35Z"
+        }
+    },
+    {
+        "model": "myapp.buyer",
+        "pk": 25,
+        "fields": {
+            "Farmer": 48,
+            "Buyer": 1,
+            "name": "Kavya Hegde",
+            "crop_type": 9,
+            "quantity": "53.84",
+            "budget": "53008.08",
+            "message": "I am interested in procuring your produce based on the current market price. Let's connect.",
+            "date_applied": "2026-10-03T17:16:35Z"
+        }
+    },
+    {
+        "model": "myapp.buyer",
+        "pk": 26,
+        "fields": {
+            "Farmer": 58,
+            "Buyer": 11,
+            "name": "Manjunath Kamath",
+            "crop_type": 7,
+            "quantity": "427.17",
+            "budget": "481057.24",
+            "message": "I am interested in procuring your produce based on the current market price. Let's connect.",
+            "date_applied": "2026-10-05T17:16:35Z"
+        }
+    },
+    {
+        "model": "myapp.buyer",
+        "pk": 27,
+        "fields": {
+            "Farmer": 36,
+            "Buyer": 6,
+            "name": "Rishab Kamath",
+            "crop_type": 8,
+            "quantity": "200.72",
+            "budget": "230673.7",
+            "message": "I am interested in procuring your produce based on the current market price. Let's connect.",
+            "date_applied": "2026-09-27T17:16:35Z"
+        }
+    },
+    {
+        "model": "myapp.buyer",
+        "pk": 28,
+        "fields": {
+            "Farmer": 19,
+            "Buyer": 1,
+            "name": "Anand Hegde",
+            "crop_type": 1,
+            "quantity": "354.83",
+            "budget": "83269.94",
+            "message": "I am interested in procuring your produce based on the current market price. Let's connect.",
+            "date_applied": "2026-10-05T17:16:35Z"
+        }
+    },
+    {
+        "model": "myapp.buyer",
+        "pk": 29,
+        "fields": {
+            "Farmer": 8,
+            "Buyer": 10,
+            "name": "Pooja Karanth",
+            "crop_type": 5,
+            "quantity": "104.04",
+            "budget": "473019.96",
+            "message": "I am interested in procuring your produce based on the current market price. Let's connect.",
+            "date_applied": "2026-10-05T17:16:35Z"
+        }
+    },
+    {
+        "model": "myapp.buyer",
+        "pk": 30,
+        "fields": {
+            "Farmer": 19,
+            "Buyer": 10,
+            "name": "Shruthi Karanth",
+            "crop_type": 1,
+            "quantity": "235.8",
+            "budget": "326385.85",
+            "message": "I am interested in procuring your produce based on the current market price. Let's connect.",
+            "date_applied": "2026-10-04T17:16:35Z"
+        }
+    },
+    {
+        "model": "myapp.buyer",
+        "pk": 31,
+        "fields": {
+            "Farmer": 39,
+            "Buyer": 6,
+            "name": "Ganesh Desai",
+            "crop_type": 9,
+            "quantity": "205.69",
+            "budget": "131223.28",
+            "message": "I am interested in procuring your produce based on the current market price. Let's connect.",
+            "date_applied": "2026-10-01T17:16:35Z"
+        }
+    },
+    {
+        "model": "myapp.buyer",
+        "pk": 32,
+        "fields": {
+            "Farmer": 1,
+            "Buyer": 19,
+            "name": "Radhika Naidu",
+            "crop_type": 8,
+            "quantity": "433.89",
+            "budget": "488717.23",
+            "message": "I am interested in procuring your produce based on the current market price. Let's connect.",
+            "date_applied": "2026-09-21T17:16:35Z"
+        }
+    },
+    {
+        "model": "myapp.buyer",
+        "pk": 33,
+        "fields": {
+            "Farmer": 28,
+            "Buyer": 2,
+            "name": "Karthik Karanth",
+            "crop_type": 2,
+            "quantity": "50.75",
+            "budget": "355035.7",
+            "message": "I am interested in procuring your produce based on the current market price. Let's connect.",
+            "date_applied": "2026-09-21T17:16:35Z"
+        }
+    },
+    {
+        "model": "myapp.buyer",
+        "pk": 34,
+        "fields": {
+            "Farmer": 46,
+            "Buyer": 6,
+            "name": "Manjunath Desai",
+            "crop_type": 8,
+            "quantity": "45.39",
+            "budget": "92511.44",
+            "message": "I am interested in procuring your produce based on the current market price. Let's connect.",
+            "date_applied": "2026-09-25T17:16:35Z"
+        }
+    },
+    {
+        "model": "myapp.buyer",
+        "pk": 35,
+        "fields": {
+            "Farmer": 48,
+            "Buyer": 16,
+            "name": "Anand Bhat",
+            "crop_type": 9,
+            "quantity": "285.88",
+            "budget": "444218.97",
+            "message": "I am interested in procuring your produce based on the current market price. Let's connect.",
+            "date_applied": "2026-10-03T17:16:35Z"
+        }
+    },
+    {
+        "model": "myapp.buyer",
+        "pk": 36,
+        "fields": {
+            "Farmer": 51,
+            "Buyer": 4,
+            "name": "Praveen Hiremath",
+            "crop_type": 2,
+            "quantity": "104.89",
+            "budget": "120631.09",
+            "message": "I am interested in procuring your produce based on the current market price. Let's connect.",
+            "date_applied": "2026-09-24T17:16:35Z"
+        }
+    },
+    {
+        "model": "myapp.buyer",
+        "pk": 37,
+        "fields": {
+            "Farmer": 33,
+            "Buyer": 13,
+            "name": "Kavya Kamath",
+            "crop_type": 5,
+            "quantity": "32.74",
+            "budget": "79365.31",
+            "message": "I am interested in procuring your produce based on the current market price. Let's connect.",
+            "date_applied": "2026-09-26T17:16:35Z"
+        }
+    },
+    {
+        "model": "myapp.buyer",
+        "pk": 38,
+        "fields": {
+            "Farmer": 24,
+            "Buyer": 16,
+            "name": "Rakshit Hegde",
+            "crop_type": 8,
+            "quantity": "210.84",
+            "budget": "390597.76",
+            "message": "I am interested in procuring your produce based on the current market price. Let's connect.",
+            "date_applied": "2026-09-26T17:16:35Z"
+        }
+    },
+    {
+        "model": "myapp.buyer",
+        "pk": 39,
+        "fields": {
+            "Farmer": 40,
+            "Buyer": 2,
+            "name": "Pannaga Hegde",
+            "crop_type": 7,
+            "quantity": "457.8",
+            "budget": "355686.36",
+            "message": "I am interested in procuring your produce based on the current market price. Let's connect.",
+            "date_applied": "2026-10-02T17:16:35Z"
+        }
+    },
+    {
+        "model": "myapp.buyer",
+        "pk": 40,
+        "fields": {
+            "Farmer": 19,
+            "Buyer": 13,
+            "name": "Shilpa Gowda",
+            "crop_type": 1,
+            "quantity": "385.31",
+            "budget": "31231.3",
+            "message": "I am interested in procuring your produce based on the current market price. Let's connect.",
+            "date_applied": "2026-09-30T17:16:35Z"
+        }
+    }
+]

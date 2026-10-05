@@ -80,7 +80,8 @@
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
         {% for farmer in farmers %}
             <div class="col">
-                <div class="card card-custom h-100 bg-white d-flex flex-column">
+                <div class="card card-custom h-100 bg-white d-flex flex-column overflow-hidden">
+                    <img src="{{ farmer.crop_image }}" class="card-img-top" alt="{{ farmer.crop_name.name }}" style="height: 190px; object-fit: cover;">
                     <div class="card-body">
                         <!-- Top meta: Crop badges -->
                         <div class="d-flex justify-content-between align-items-start mb-2">

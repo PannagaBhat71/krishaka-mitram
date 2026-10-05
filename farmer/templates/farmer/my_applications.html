@@ -54,14 +54,8 @@
                             </td>
                             <td>
                                 <div class="d-flex gap-1">
-                                    <a href="{% url 'farmer-detail' app.Farmer.pk %}" class="btn btn-sm btn-outline-primary" title="View Details">
-                                        <i class="bi bi-eye"></i> View
-                                    </a>
-                                    <a href="tel:{{ app.Farmer.phone_number }}" class="btn btn-sm btn-outline-success" title="Call Farmer">
-                                        <i class="bi bi-telephone"></i>
-                                    </a>
-                                    <a href="https://wa.me/{{ app.Farmer.phone_number }}" target="_blank" class="btn btn-sm btn-success" title="WhatsApp Farmer">
-                                        <i class="bi bi-whatsapp"></i>
+                                    <a href="{% url 'farmer-detail' app.Farmer.pk %}" class="btn btn-sm btn-outline-success" title="View Details">
+                                        <i class="bi bi-eye me-1"></i> View Produce
                                     </a>
                                 </div>
                             </td>
