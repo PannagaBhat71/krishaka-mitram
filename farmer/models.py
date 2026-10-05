@@ -37,22 +37,22 @@ class Farmer(models.Model):
     def crop_image(self):
         name = (self.crop_name.name if self.crop_name else '').lower()
         images = {
-            'paddy': 'https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&w=600&q=80',
-            'rice': 'https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&w=600&q=80',
-            'arecanut': 'https://images.unsplash.com/photo-1596704017254-9b121068fb31?auto=format&fit=crop&w=600&q=80',
-            'coconut': 'https://images.unsplash.com/photo-1544376798-89aa6b82c6cd?auto=format&fit=crop&w=600&q=80',
-            'cashew': 'https://images.unsplash.com/photo-1509358271058-acd22cc93898?auto=format&fit=crop&w=600&q=80',
-            'jowar': 'https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?auto=format&fit=crop&w=600&q=80',
-            'sugarcane': 'https://images.unsplash.com/photo-1558435186-d31d126391fa?auto=format&fit=crop&w=600&q=80',
-            'maize': 'https://images.unsplash.com/photo-1551754655-cd27e38d2076?auto=format&fit=crop&w=600&q=80',
-            'cotton': 'https://images.unsplash.com/photo-1606041008023-472dfb5e530f?auto=format&fit=crop&w=600&q=80',
-            'toor': 'https://images.unsplash.com/photo-1515543237350-b3eea1ec8082?auto=format&fit=crop&w=600&q=80',
-            'ragi': 'https://images.unsplash.com/photo-1586771107445-d3ca888129ff?auto=format&fit=crop&w=600&q=80',
+            'arecanut': '/static/arecanut.jpg',
+            'cashew': '/static/cashew.jpg',
+            'coconut': '/static/coconut.jpg',
+            'cotton': '/static/cotton.jpg',
+            'jowar': '/static/jowar.jpg',
+            'maize': '/static/maize.jpg',
+            'paddy': '/static/paddy.jpg',
+            'rice': '/static/paddy.jpg',
+            'ragi': '/static/ragi.jpg',
+            'sugarcane': '/static/sugarcane.jpg',
+            'toor': '/static/toor.jpg',
         }
         for key, url in images.items():
             if key in name:
                 return url
-        return 'https://images.unsplash.com/photo-1500937386664-56d1dfef3854?auto=format&fit=crop&w=600&q=80'
+        return '/static/paddy.jpg'
 
 
 

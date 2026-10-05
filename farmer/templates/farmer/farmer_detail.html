@@ -1,43 +1,46 @@
 {% extends 'base.html' %}
 
-{% block title %}{{ farmer.crop_name.name }} by {{ farmer.name }} | Krishaka Mitram{% endblock %}
+{% block title %}{{ farmer.crop_name.name }} | Krishaka Mitram{% endblock %}
 
 {% block content %}
 <div class="row justify-content-center">
-    <div class="col-lg-9">
+    <div class="col-lg-8">
         <!-- Back Navigation -->
         <div class="mb-3">
-            <a href="{% url 'farmer-list' %}" class="btn btn-outline-secondary btn-sm">
+            <a href="{% url 'farmer-list' %}" class="btn btn-agri-outline btn-sm">
                 <i class="bi bi-arrow-left me-1"></i> Back to Produce Listings
             </a>
         </div>
 
-        <div class="card card-custom bg-white overflow-hidden mb-4">
-            <!-- Crop Image -->
-            <img src="{{ farmer.crop_image }}" class="w-100" style="height: 300px; object-fit: cover;" alt="{{ farmer.crop_name.name }}">
+        <div class="card card-custom overflow-hidden mb-4">
+            <!-- Local Crop Image -->
+            <img src="{{ farmer.crop_image }}" class="w-100" style="height: 280px; object-fit: cover;" alt="{{ farmer.crop_name.name }}">
 
-            <!-- Header bar -->
-            <div class="p-4 text-white" style="background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 100%);">
-                <div class="d-flex flex-wrap justify-content-between align-items-center gap-2">
+            <!-- Header info -->
+            <div class="p-4 border-bottom bg-white">
+                <div class="d-flex flex-wrap justify-content-between align-items-start gap-2">
                     <div>
-                        <span class="badge bg-warning text-dark mb-2">
-                            <i class="bi bi-tag-fill me-1"></i>{{ farmer.crop_type.name }}
-                        </span>
-                        <h2 class="fw-bold mb-1">{{ farmer.crop_name.name }}</h2>
-                        <div class="opacity-75 small">
+                        <div class="d-flex gap-2 mb-2">
+                            <span class="badge bg-success-subtle text-success border border-success-subtle badge-tag">
+                                {{ farmer.crop_type.name }}
+                            </span>
+                            <span class="badge bg-light text-secondary border badge-tag">
+                                <i class="bi bi-geo-alt text-danger me-1"></i>{{ farmer.location }}
+                            </span>
+                        </div>
+                        <h3 class="fw-bold text-dark mb-1">{{ farmer.crop_name.name }}</h3>
+                        <div class="text-muted small">
                             <i class="bi bi-person me-1"></i>Farmer: <strong>{{ farmer.name }}</strong>
                             <span class="mx-2">&bull;</span>
-                            <i class="bi bi-geo-alt-fill me-1"></i>{{ farmer.location }}
-                            <span class="mx-2">&bull;</span>
-                            <i class="bi bi-calendar3 me-1"></i>Listed on {{ farmer.date_posted|date:"M d, Y" }}
+                            <i class="bi bi-calendar3 me-1"></i>{{ farmer.date_posted|date:"M d, Y" }}
                         </div>
                     </div>
                     {% if user.is_authenticated and user == farmer.posted_by or user.is_superuser %}
                     <div class="d-flex gap-2">
-                        <a href="{% url 'farmer-update' farmer.pk %}" class="btn btn-light btn-sm fw-semibold">
+                        <a href="{% url 'farmer-update' farmer.pk %}" class="btn btn-agri-outline btn-sm">
                             <i class="bi bi-pencil-square me-1"></i> Edit
                         </a>
-                        <a href="{% url 'farmer-delete' farmer.pk %}" class="btn btn-outline-light btn-sm">
+                        <a href="{% url 'farmer-delete' farmer.pk %}" class="btn btn-outline-danger btn-sm">
                             <i class="bi bi-trash me-1"></i> Delete
                         </a>
                     </div>
@@ -50,64 +53,64 @@
                 <!-- Highlight Grid -->
                 <div class="row g-3 mb-4">
                     <div class="col-6 col-md-3">
-                        <div class="p-3 bg-light rounded-3 text-center border">
-                            <small class="text-muted d-block">Expected Price</small>
-                            <span class="fw-bold text-success fs-4">₹{{ farmer.price }}</span>
+                        <div class="p-3 bg-light rounded-2 text-center border">
+                            <small class="text-muted d-block mb-1" style="font-size: 0.75rem;" data-i18n="lbl_price">Expected Price</small>
+                            <span class="fw-bold text-success fs-5">₹{{ farmer.price }}</span>
                         </div>
                     </div>
                     <div class="col-6 col-md-3">
-                        <div class="p-3 bg-light rounded-3 text-center border">
-                            <small class="text-muted d-block">Available Quantity</small>
-                            <span class="fw-bold text-dark fs-4">{{ farmer.quantity }}</span> <small class="text-muted">Quintals</small>
+                        <div class="p-3 bg-light rounded-2 text-center border">
+                            <small class="text-muted d-block mb-1" style="font-size: 0.75rem;" data-i18n="lbl_quantity">Available Qty</small>
+                            <span class="fw-bold text-dark fs-5">{{ farmer.quantity }}</span> <small class="text-muted">Qtl</small>
                         </div>
                     </div>
                     <div class="col-6 col-md-3">
-                        <div class="p-3 bg-light rounded-3 text-center border">
-                            <small class="text-muted d-block">Quality Grade</small>
-                            <span class="fw-bold text-warning fs-4"><i class="bi bi-star-fill me-1"></i>{{ farmer.quality }}</span> <small class="text-muted">/10</small>
+                        <div class="p-3 bg-light rounded-2 text-center border">
+                            <small class="text-muted d-block mb-1" style="font-size: 0.75rem;">Quality Rating</small>
+                            <span class="fw-bold text-warning fs-5"><i class="bi bi-star-fill me-1"></i>{{ farmer.quality }}</span> <small class="text-muted">/10</small>
                         </div>
                     </div>
                     <div class="col-6 col-md-3">
-                        <div class="p-3 bg-light rounded-3 text-center border">
-                            <small class="text-muted d-block">Farm Size</small>
-                            <span class="fw-bold text-dark fs-4">{{ farmer.farm_size }}</span> <small class="text-muted">Acres</small>
+                        <div class="p-3 bg-light rounded-2 text-center border">
+                            <small class="text-muted d-block mb-1" style="font-size: 0.75rem;">Farm Size</small>
+                            <span class="fw-bold text-dark fs-5">{{ farmer.farm_size }}</span> <small class="text-muted">Acres</small>
                         </div>
                     </div>
                 </div>
 
-                <!-- Farm & Produce Details Table -->
-                <h5 class="fw-bold text-dark mb-3"><i class="bi bi-info-circle me-2 text-success"></i>Produce Information</h5>
+                <!-- Produce Details Table (EXCLUDES phone_number and ration_card_number) -->
+                <h6 class="fw-bold text-dark text-uppercase mb-3" style="font-size: 0.85rem; letter-spacing: 0.04em;">Produce Specification</h6>
                 <div class="table-responsive mb-4">
-                    <table class="table table-bordered table-striped align-middle mb-0">
+                    <table class="table table-bordered align-middle mb-0" style="border-color: var(--km-border);">
                         <tbody>
                             <tr>
-                                <th style="width: 35%;" class="bg-light text-secondary">Farmer / Farm Name</th>
-                                <td>{{ farmer.name }}</td>
+                                <th style="width: 35%;" class="bg-light text-secondary small">Farmer / Farm Title</th>
+                                <td class="small fw-semibold">{{ farmer.name }}</td>
                             </tr>
                             <tr>
-                                <th class="bg-light text-secondary">Crop Name</th>
-                                <td><span class="fw-semibold text-success">{{ farmer.crop_name.name }}</span></td>
+                                <th class="bg-light text-secondary small">Crop Variety</th>
+                                <td class="small fw-semibold text-success">{{ farmer.crop_name.name }}</td>
                             </tr>
                             <tr>
-                                <th class="bg-light text-secondary">Crop Category</th>
-                                <td>{{ farmer.crop_type.name }}</td>
+                                <th class="bg-light text-secondary small">Crop Category</th>
+                                <td class="small">{{ farmer.crop_type.name }}</td>
                             </tr>
                             <tr>
-                                <th class="bg-light text-secondary">Location / Taluk</th>
-                                <td><i class="bi bi-geo-alt text-danger me-1"></i>{{ farmer.location }} (Karnataka)</td>
+                                <th class="bg-light text-secondary small">Location</th>
+                                <td class="small">{{ farmer.location }} (Karnataka)</td>
                             </tr>
                             <tr>
-                                <th class="bg-light text-secondary">Farm Size</th>
-                                <td>{{ farmer.farm_size }} Acres</td>
+                                <th class="bg-light text-secondary small">Farm Size</th>
+                                <td class="small">{{ farmer.farm_size }} Acres</td>
                             </tr>
                             <tr>
-                                <th class="bg-light text-secondary">Quality Grade</th>
-                                <td>{{ farmer.quality }} / 10</td>
+                                <th class="bg-light text-secondary small">Quality Grade</th>
+                                <td class="small">{{ farmer.quality }} / 10</td>
                             </tr>
                             {% if farmer.posted_by %}
                             <tr>
-                                <th class="bg-light text-secondary">Listed By</th>
-                                <td>{{ farmer.posted_by.username }}</td>
+                                <th class="bg-light text-secondary small">Listed By User</th>
+                                <td class="small">{{ farmer.posted_by.username }}</td>
                             </tr>
                             {% endif %}
                         </tbody>
@@ -115,50 +118,44 @@
                 </div>
 
                 <!-- Connect Section -->
-                <div class="p-4 rounded-3 border bg-light-subtle">
-                    <div class="row align-items-center g-3">
-                        <div class="col-md-7">
-                            <h5 class="fw-bold text-dark mb-1">
-                                <i class="bi bi-shield-check me-2 text-success"></i>Direct Connection &amp; Pricing
-                            </h5>
-                            <p class="text-muted small mb-0">Connect directly on Krishaka Mitram to purchase or make an offer at fair farmer-gate pricing.</p>
-                        </div>
-                        <div class="col-md-5 text-md-end">
-                            {% if user.is_authenticated %}
-                                {% if user == farmer.posted_by %}
-                                    <span class="badge bg-secondary p-2">This is your produce listing</span>
-                                {% elif already_applied %}
-                                    <div class="alert alert-info py-2 px-3 d-inline-block mb-0 text-start small">
-                                        <i class="bi bi-check-circle-fill me-1 text-success"></i> You have expressed interest in this produce.
-                                    </div>
-                                {% else %}
-                                    <a href="{% url 'apply-job' farmer.pk %}" class="btn btn-warning text-dark fw-bold px-3 py-2">
-                                        <i class="bi bi-hand-thumbs-up me-1"></i> Express Buyer Interest
-                                    </a>
-                                {% endif %}
+                <div class="p-4 rounded-3 border bg-light d-flex flex-wrap justify-content-between align-items-center gap-3">
+                    <div>
+                        <h6 class="fw-bold text-dark mb-1">Direct Farmer Connection</h6>
+                        <p class="text-muted small mb-0">Express buyer interest to start direct price discovery and procurement.</p>
+                    </div>
+                    <div>
+                        {% if user.is_authenticated %}
+                            {% if user == farmer.posted_by %}
+                                <span class="badge bg-secondary p-2">This is your listing</span>
+                            {% elif already_applied %}
+                                <span class="badge bg-success-subtle text-success border border-success-subtle p-2">
+                                    <i class="bi bi-check-circle me-1"></i> Inquiry Sent
+                                </span>
                             {% else %}
-                                <a href="{% url 'login' %}?next={% url 'farmer-detail' farmer.pk %}" class="btn btn-warning text-dark fw-bold px-3 py-2">
-                                    <i class="bi bi-box-arrow-in-right me-1"></i> Sign In to Inquire
+                                <a href="{% url 'apply-job' farmer.pk %}" class="btn btn-agri-primary" data-i18n="btn_inquire">
+                                    <i class="bi bi-hand-thumbs-up me-1"></i> Express Buyer Interest
                                 </a>
                             {% endif %}
-                        </div>
+                        {% else %}
+                            <a href="{% url 'login' %}?next={% url 'farmer-detail' farmer.pk %}" class="btn btn-agri-primary">
+                                Sign In to Inquire
+                            </a>
+                        {% endif %}
                     </div>
                 </div>
 
                 <!-- Owner View: Incoming Inquiries -->
                 {% if inquiries %}
                 <div class="mt-4 pt-3 border-top">
-                    <h5 class="fw-bold text-dark mb-3">
-                        <i class="bi bi-inbox-fill text-primary me-2"></i>Incoming Buyer Inquiries ({{ inquiries|length }})
-                    </h5>
+                    <h6 class="fw-bold text-dark mb-3">Incoming Buyer Inquiries ({{ inquiries|length }})</h6>
                     <div class="table-responsive">
-                        <table class="table table-hover table-sm">
+                        <table class="table table-sm small">
                             <thead class="table-light">
                                 <tr>
                                     <th>Buyer Username</th>
                                     <th>Email</th>
                                     <th>Role</th>
-                                    <th>Date Inquired</th>
+                                    <th>Date</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -166,8 +163,8 @@
                                 <tr>
                                     <td class="fw-semibold">{{ inq.Buyer.username }}</td>
                                     <td>{{ inq.Buyer.email|default:"N/A" }}</td>
-                                    <td><span class="badge bg-info text-dark">{{ inq.Buyer.role|title }}</span></td>
-                                    <td>{{ inq.date_applied|date:"M d, Y H:i" }}</td>
+                                    <td><span class="badge bg-light text-dark border">{{ inq.Buyer.role|title }}</span></td>
+                                    <td>{{ inq.date_applied|date:"M d, Y" }}</td>
                                 </tr>
                                 {% endfor %}
                             </tbody>

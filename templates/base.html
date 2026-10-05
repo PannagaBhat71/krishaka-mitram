@@ -3,130 +3,231 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Krishaka Mitram | Dakshina Kannada & Udupi Agri-Market{% endblock %}</title>
+    <title>{% block title %}Krishaka Mitram | ಕೃಷಕ ಮಿತ್ರಂ{% endblock %}</title>
+    <!-- Google Fonts Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
     <style>
         :root {
-            --primary-green: #1b5e20;
-            --secondary-green: #2e7d32;
-            --accent-gold: #f9a825;
-            --light-bg: #f4f6f0;
+            --km-primary: #1b4332;
+            --km-primary-hover: #143621;
+            --km-accent: #2d6a4f;
+            --km-bg: #f8fafc;
+            --km-surface: #ffffff;
+            --km-border: #e2e8f0;
+            --km-text-main: #0f172a;
+            --km-text-muted: #64748b;
         }
         body {
-            background-color: var(--light-bg);
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--km-bg);
+            color: var(--km-text-main);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            letter-spacing: -0.01em;
         }
-        .navbar-custom {
-            background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 100%);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+        /* Minimalist Navbar */
+        .navbar-minimal {
+            background-color: var(--km-surface);
+            border-bottom: 1px solid var(--km-border);
+            padding: 0.85rem 0;
         }
         .navbar-brand {
             font-weight: 700;
-            letter-spacing: 0.5px;
-            color: #ffffff !important;
+            color: var(--km-primary) !important;
+            letter-spacing: -0.02em;
         }
         .nav-link {
-            color: rgba(255,255,255,0.9) !important;
+            color: var(--km-text-muted) !important;
             font-weight: 500;
-            transition: color 0.2s ease;
+            font-size: 0.925rem;
+            padding: 0.5rem 0.85rem !important;
+            transition: color 0.15s ease;
         }
-        .nav-link:hover {
-            color: var(--accent-gold) !important;
+        .nav-link:hover, .nav-link.active {
+            color: var(--km-primary) !important;
         }
-        .card-custom {
-            border: none;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-        .card-custom:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-        }
-        .badge-role {
-            font-size: 0.75rem;
-            padding: 4px 8px;
-            border-radius: 6px;
-        }
+        /* Buttons */
         .btn-agri-primary {
-            background-color: var(--secondary-green);
+            background-color: var(--km-primary);
             color: #ffffff;
-            border: none;
+            border: 1px solid var(--km-primary);
             font-weight: 500;
+            font-size: 0.9rem;
+            padding: 0.5rem 1.15rem;
+            border-radius: 8px;
+            transition: all 0.15s ease;
         }
         .btn-agri-primary:hover {
-            background-color: var(--primary-green);
+            background-color: var(--km-primary-hover);
             color: #ffffff;
+            border-color: var(--km-primary-hover);
         }
-        .footer {
+        .btn-agri-outline {
+            background-color: transparent;
+            color: var(--km-primary);
+            border: 1px solid var(--km-border);
+            font-weight: 500;
+            font-size: 0.9rem;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: all 0.15s ease;
+        }
+        .btn-agri-outline:hover {
+            background-color: #f1f5f9;
+            color: var(--km-primary);
+            border-color: #cbd5e1;
+        }
+        /* Minimalist Cards */
+        .card-custom {
+            background-color: var(--km-surface);
+            border: 1px solid var(--km-border);
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+            transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+        }
+        .card-custom:hover {
+            transform: translateY(-2px);
+            border-color: #cbd5e1;
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.06);
+        }
+        .badge-tag {
+            font-size: 0.75rem;
+            font-weight: 500;
+            padding: 0.35rem 0.65rem;
+            border-radius: 6px;
+        }
+        /* Minimal Footer */
+        .footer-minimal {
+            background-color: #ffffff;
+            border-top: 1px solid var(--km-border);
             margin-top: auto;
-            background-color: #1b5e20;
-            color: #dcedc8;
+            color: var(--km-text-muted);
+            font-size: 0.875rem;
+        }
+        .footer-minimal a {
+            color: var(--km-text-muted);
+            text-decoration: none;
+            transition: color 0.15s ease;
+        }
+        .footer-minimal a:hover {
+            color: var(--km-primary);
+        }
+        .footer-heading {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 700;
+            color: var(--km-text-main);
+            margin-bottom: 1rem;
+        }
+        /* Cookie Window */
+        .cookie-window {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            max-width: 420px;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(8px);
+            border: 1px solid var(--km-border);
+            border-radius: 12px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08), 0 5px 15px rgba(0, 0, 0, 0.04);
+            padding: 1.25rem;
+            z-index: 9999;
+            transition: all 0.3s ease;
+        }
+        .cookie-window.hidden {
+            display: none !important;
+        }
+        /* Language Toggle Pill */
+        .lang-switch-btn {
+            font-size: 0.825rem;
+            font-weight: 600;
+            border: 1px solid var(--km-border);
+            border-radius: 20px;
+            padding: 0.3rem 0.75rem;
+            background: #ffffff;
+            color: var(--km-text-main);
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+        .lang-switch-btn:hover {
+            background: #f1f5f9;
         }
     </style>
     {% block extra_head %}{% endblock %}
 </head>
 <body>
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom sticky-top">
+    <nav class="navbar navbar-expand-lg navbar-minimal sticky-top">
         <div class="container">
             <a class="navbar-brand d-flex align-items-center gap-2" href="{% url 'home' %}">
-                <i class="bi bi-flower1 fs-3 text-warning"></i>
+                <i class="bi bi-flower1 fs-4 text-success"></i>
                 <div>
-                    <span class="fs-5">Krishaka Mitram</span>
-                    <small class="d-block text-white-50" style="font-size: 0.65rem; font-weight: 400;">ಕೃಷಕ ಮಿತ್ರಂ &bull; DK &amp; Udupi</small>
+                    <span class="fs-5" data-i18n="brand_title">Krishaka Mitram</span>
+                    <small class="d-block text-muted" style="font-size: 0.7rem; font-weight: 500;" data-i18n="brand_sub">ಕೃಷಕ ಮಿತ್ರಂ &bull; Karnataka</small>
                 </div>
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navContent" aria-controls="navContent" aria-expanded="false" aria-label="Toggle navigation">
+            
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navContent">
                 <span class="navbar-toggler-icon"></span>
             </button>
+
             <div class="collapse navbar-collapse" id="navContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-3">
                     <li class="nav-item">
-                        <a class="nav-link active" href="{% url 'farmer-list' %}">
-                            <i class="bi bi-shop me-1"></i> Browse Produce
+                        <a class="nav-link" href="{% url 'farmer-list' %}" data-i18n="nav_browse">
+                            <i class="bi bi-grid me-1"></i> Browse Produce
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'farmer-create' %}">
-                            <i class="bi bi-plus-circle me-1"></i> List Produce
+                        <a class="nav-link" href="{% url 'farmer-create' %}" data-i18n="nav_sell">
+                            <i class="bi bi-plus-circle me-1"></i> Post Listing
                         </a>
                     </li>
                     {% if user.is_authenticated %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'my-farmers' %}">
+                        <a class="nav-link" href="{% url 'my-farmers' %}" data-i18n="nav_my_listings">
                             <i class="bi bi-card-checklist me-1"></i> My Listings
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'my-applications' %}">
-                            <i class="bi bi-chat-left-dots me-1"></i> My Inquiries
+                        <a class="nav-link" href="{% url 'my-applications' %}" data-i18n="nav_inquiries">
+                            <i class="bi bi-chat-left-text me-1"></i> My Inquiries
                         </a>
                     </li>
                     {% endif %}
                 </ul>
-                <div class="d-flex align-items-center gap-2">
+
+                <div class="d-flex align-items-center gap-2 flex-wrap">
+                    <!-- Language Switcher -->
+                    <button id="langToggle" class="lang-switch-btn" title="Switch Language / ಭಾಷೆ ಬದಲಾಯಿಸಿ" onclick="toggleLanguage()">
+                        <i class="bi bi-translate text-success"></i>
+                        <span id="langLabel">ಕನ್ನಡ</span>
+                    </button>
+
                     {% if user.is_authenticated %}
-                        <div class="text-white me-2 d-none d-md-block text-end">
-                            <small class="d-block text-white-50">Signed in as</small>
-                            <span class="fw-semibold">{{ user.username }}</span>
-                            <span class="badge bg-warning text-dark badge-role ms-1">{{ user.role|title }}</span>
+                        <div class="text-end d-none d-md-block me-1">
+                            <small class="d-block text-muted" style="font-size: 0.75rem;" data-i18n="signed_in_as">Signed in</small>
+                            <span class="fw-semibold text-dark" style="font-size: 0.85rem;">{{ user.username }}</span>
                         </div>
-                        <a href="{% url 'logout' %}" class="btn btn-sm btn-outline-light">
+                        <a href="{% url 'logout' %}" class="btn btn-agri-outline btn-sm" data-i18n="nav_logout">
                             <i class="bi bi-box-arrow-right me-1"></i> Logout
                         </a>
                     {% else %}
-                        <a href="{% url 'login' %}" class="btn btn-sm btn-outline-light">
-                            <i class="bi bi-box-arrow-in-right me-1"></i> Login
+                        <a href="{% url 'login' %}" class="btn btn-agri-outline btn-sm" data-i18n="nav_login">
+                            Login
                         </a>
-                        <a href="{% url 'signup' %}" class="btn btn-sm btn-warning text-dark fw-semibold">
-                            <i class="bi bi-person-plus me-1"></i> Register
+                        <a href="{% url 'signup' %}" class="btn btn-agri-primary btn-sm" data-i18n="nav_register">
+                            Register
                         </a>
                     {% endif %}
                 </div>
@@ -138,9 +239,9 @@
     <div class="container mt-3">
         {% if messages %}
             {% for message in messages %}
-                <div class="alert alert-{{ message.tags|default:'info' }} alert-dismissible fade show" role="alert">
+                <div class="alert alert-{{ message.tags|default:'info' }} border-0 shadow-sm alert-dismissible fade show" role="alert">
                     <i class="bi bi-info-circle me-2"></i> {{ message }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                 </div>
             {% endfor %}
         {% endif %}
@@ -151,40 +252,274 @@
         {% block content %}{% endblock %}
     </main>
 
-    <!-- Footer -->
-    <footer class="footer py-4 mt-auto">
+    <!-- Cookie Window (Consent Banner) -->
+    <div id="cookieWindow" class="cookie-window hidden">
+        <div class="d-flex align-items-start gap-3">
+            <i class="bi bi-shield-check fs-3 text-success"></i>
+            <div>
+                <h6 class="fw-bold mb-1 text-dark" data-i18n="cookie_title">Cookie &amp; Session Preferences</h6>
+                <p class="small text-muted mb-3" style="line-height: 1.4;" data-i18n="cookie_text">
+                    We use essential cookies to maintain your login session and language preferences for fair agricultural trade.
+                </p>
+                <div class="d-flex gap-2">
+                    <button class="btn btn-agri-primary btn-sm px-3" onclick="acceptCookies('all')" data-i18n="cookie_accept">
+                        Accept All
+                    </button>
+                    <button class="btn btn-agri-outline btn-sm px-3" onclick="acceptCookies('essential')" data-i18n="cookie_essential">
+                        Essential Only
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Minimalist Footer with Diverse Links -->
+    <footer class="footer-minimal py-5">
         <div class="container">
             <div class="row g-4">
-                <div class="col-md-6">
-                    <h6 class="text-white fw-bold"><i class="bi bi-flower1 text-warning me-2"></i>Krishaka Mitram (ಕೃಷಕ ಮಿತ್ರಂ)</h6>
-                    <p class="small text-white-50 mb-0">Empowering marginal farmers across Dakshina Kannada (Mangaluru, Bantwal, Puttur, Belthangady, Sullia) and Udupi (Kundapura, Karkala) with direct market access, fair price discovery, and zero middle-man loss.</p>
+                <!-- Column 1: Brand & Mission -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                        <i class="bi bi-flower1 fs-4 text-success"></i>
+                        <span class="fw-bold text-dark fs-5" data-i18n="brand_title">Krishaka Mitram</span>
+                    </div>
+                    <p class="text-muted small mb-3" data-i18n="footer_mission">
+                        Empowering marginal and local farmers across Karnataka, Dakshina Kannada, and Udupi with fair price discovery, transparent produce listings, and direct access to trusted buyers.
+                    </p>
+                    <div class="small text-muted">
+                        <i class="bi bi-patch-check-fill text-success me-1"></i> <span data-i18n="footer_gov_tag">Karnataka Agri-Marketplace Initiative</span>
+                    </div>
                 </div>
-                <div class="col-md-3">
-                    <h6 class="text-white fw-bold">Major Crops</h6>
-                    <ul class="list-unstyled small text-white-50">
-                        <li>Arecanut (Adike) &bull; Coconut</li>
-                        <li>Black Pepper &bull; Paddy</li>
-                        <li>Cashew &bull; Rubber &bull; Banana</li>
+
+                <!-- Column 2: Marketplace Links -->
+                <div class="col-lg-2 col-md-6 col-6">
+                    <div class="footer-heading" data-i18n="footer_sec_market">Marketplace</div>
+                    <ul class="list-unstyled mb-0 d-flex flex-column gap-2 small">
+                        <li><a href="{% url 'farmer-list' %}" data-i18n="foot_all_crops">All Produce</a></li>
+                        <li><a href="{% url 'farmer-create' %}" data-i18n="foot_sell_produce">Sell Produce</a></li>
+                        <li><a href="{% url 'farmer-list' %}?crop=2" data-i18n="foot_arecanut">Arecanut (Adike)</a></li>
+                        <li><a href="{% url 'farmer-list' %}?crop=3" data-i18n="foot_coconut">Coconut (Thengu)</a></li>
+                        <li><a href="{% url 'farmer-list' %}?crop=1" data-i18n="foot_paddy">Paddy (Rice)</a></li>
                     </ul>
                 </div>
-                <div class="col-md-3">
-                    <h6 class="text-white fw-bold">Direct Access</h6>
-                    <ul class="list-unstyled small">
-                        <li><a href="{% url 'farmer-list' %}" class="text-white-50 text-decoration-none hover-white">Crop Listings</a></li>
-                        <li><a href="{% url 'farmer-create' %}" class="text-white-50 text-decoration-none hover-white">Post Your Produce</a></li>
-                        <li><a href="{% url 'signup' %}" class="text-white-50 text-decoration-none hover-white">Join as Farmer or Buyer</a></li>
+
+                <!-- Column 3: Schemes & Resources -->
+                <div class="col-lg-3 col-md-6 col-6">
+                    <div class="footer-heading" data-i18n="footer_sec_resources">Schemes &amp; APMC</div>
+                    <ul class="list-unstyled mb-0 d-flex flex-column gap-2 small">
+                        <li><a href="https://raitamitra.karnataka.gov.in" target="_blank" rel="noopener" data-i18n="foot_raitha_mitra">Raita Mitra Karnataka &nearr;</a></li>
+                        <li><a href="https://pmkisan.gov.in" target="_blank" rel="noopener" data-i18n="foot_pm_kisan">PM-Kisan Samman Nidhi &nearr;</a></li>
+                        <li><a href="https://krishimaratavahini.karnataka.gov.in" target="_blank" rel="noopener" data-i18n="foot_apmc_rates">Karnataka APMC Mandi Rates &nearr;</a></li>
+                        <li><a href="https://kvk.icar.gov.in" target="_blank" rel="noopener" data-i18n="foot_kvk">KVK Brahmavar / Mangaluru &nearr;</a></li>
+                        <li><a href="https://soilhealth.dac.gov.in" target="_blank" rel="noopener" data-i18n="foot_soil_health">Soil Health Card Scheme &nearr;</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 4: Support & Legal -->
+                <div class="col-lg-3 col-md-6">
+                    <div class="footer-heading" data-i18n="footer_sec_support">Support &amp; Legal</div>
+                    <ul class="list-unstyled mb-3 d-flex flex-column gap-2 small">
+                        <li>
+                            <i class="bi bi-telephone text-success me-1"></i>
+                            <span class="text-dark fw-semibold" data-i18n="foot_helpline">Kisan Helpline:</span> 1800-180-1551
+                        </li>
+                        <li>
+                            <i class="bi bi-geo-alt text-success me-1"></i>
+                            <span data-i18n="foot_hq">Dakshina Kannada &amp; Udupi, KA</span>
+                        </li>
+                        <li><a href="#" onclick="showCookieNotice(); return false;" data-i18n="foot_cookies">Cookie Preferences</a></li>
+                        <li><a href="{% url 'farmer-list' %}" data-i18n="foot_privacy">Fair Trade &amp; Privacy Policy</a></li>
                     </ul>
                 </div>
             </div>
-            <hr class="border-secondary my-3">
-            <div class="text-center small text-white-50">
-                &copy; 2026 Krishaka Mitram. Built for Dev Hack.
+
+            <hr class="my-4" style="border-color: var(--km-border);">
+            
+            <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 small text-muted">
+                <div>
+                    &copy; 2026 Krishaka Mitram. <span data-i18n="foot_rights">Empowering Karnataka agriculture.</span>
+                </div>
+                <div class="d-flex gap-3">
+                    <span class="text-success"><i class="bi bi-circle-fill text-success" style="font-size: 0.5rem;"></i> Middleman Margin Elimination</span>
+                    <span>Direct Price Discovery</span>
+                </div>
             </div>
         </div>
     </footer>
 
-    <!-- Bootstrap 5 JS Bundle -->
+    <!-- Bootstrap 5 JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Multilingual & Cookie Logic -->
+    <script>
+        // Language Dictionary
+        const translations = {
+            en: {
+                brand_title: "Krishaka Mitram",
+                brand_sub: "ಕೃಷಕ ಮಿತ್ರಂ • Karnataka",
+                nav_browse: '<i class="bi bi-grid me-1"></i> Browse Produce',
+                nav_sell: '<i class="bi bi-plus-circle me-1"></i> Post Listing',
+                nav_my_listings: '<i class="bi bi-card-checklist me-1"></i> My Listings',
+                nav_inquiries: '<i class="bi bi-chat-left-text me-1"></i> My Inquiries',
+                nav_login: "Login",
+                nav_register: "Register",
+                nav_logout: '<i class="bi bi-box-arrow-right me-1"></i> Logout',
+                signed_in_as: "Signed in",
+                cookie_title: "Cookie & Session Preferences",
+                cookie_text: "We use essential cookies to maintain your login session and language preferences for fair agricultural trade.",
+                cookie_accept: "Accept All",
+                cookie_essential: "Essential Only",
+                footer_mission: "Empowering marginal and local farmers across Karnataka, Dakshina Kannada, and Udupi with fair price discovery, transparent produce listings, and direct access to trusted buyers.",
+                footer_gov_tag: "Karnataka Agri-Marketplace Initiative",
+                footer_sec_market: "Marketplace",
+                footer_sec_resources: "Schemes & APMC",
+                footer_sec_support: "Support & Legal",
+                foot_all_crops: "All Produce",
+                foot_sell_produce: "Sell Produce",
+                foot_arecanut: "Arecanut (Adike)",
+                foot_coconut: "Coconut (Thengu)",
+                foot_paddy: "Paddy (Rice)",
+                foot_raitha_mitra: "Raita Mitra Karnataka ↗",
+                foot_pm_kisan: "PM-Kisan Samman Nidhi ↗",
+                foot_apmc_rates: "Karnataka APMC Mandi Rates ↗",
+                foot_kvk: "KVK Brahmavar / Mangaluru ↗",
+                foot_soil_health: "Soil Health Card Scheme ↗",
+                foot_helpline: "Kisan Helpline:",
+                foot_hq: "Dakshina Kannada & Udupi, KA",
+                foot_cookies: "Cookie Preferences",
+                foot_privacy: "Fair Trade & Privacy Policy",
+                foot_rights: "Empowering Karnataka agriculture.",
+                // General page UI keys
+                hero_tag: "Direct Farmer-to-Buyer Marketplace",
+                hero_title: "Karnataka Agri-Network",
+                hero_desc: "Eliminate middlemen, secure fair pricing, and discover freshly harvested arecanut, coconut, paddy, pepper, cashew, and jowar directly from local growers.",
+                btn_post_listing: '<i class="bi bi-plus-circle me-1"></i> Post Produce Listing',
+                btn_filter: '<i class="bi bi-funnel me-1"></i> Filter',
+                ph_search: "Search farmer, crop, or location...",
+                ph_location: "Filter by Taluk / Location",
+                opt_all_crops: "All Crop Categories",
+                lbl_available_listings: "Available Produce Listings",
+                lbl_price: "Expected Price",
+                lbl_quantity: "Available Qty",
+                lbl_quality: "Quality Grade:",
+                lbl_farm_size: "Farm Size:",
+                lbl_listed_by: "Listed by:",
+                btn_view_details: 'View Produce & Connect <i class="bi bi-arrow-right ms-1"></i>',
+                btn_inquire: '<i class="bi bi-hand-thumbs-up me-1"></i> Express Buyer Interest',
+            },
+            kn: {
+                brand_title: "ಕೃಷಕ ಮಿತ್ರಂ",
+                brand_sub: "ಕೃಷಕ ಮಿತ್ರಂ • ಕರ್ನಾಟಕ",
+                nav_browse: '<i class="bi bi-grid me-1"></i> ಬೆಳೆಗಳನ್ನು ವೀಕ್ಷಿಸಿ',
+                nav_sell: '<i class="bi bi-plus-circle me-1"></i> ಬೆಳೆ ನೋಂದಾಯಿಸಿ',
+                nav_my_listings: '<i class="bi bi-card-checklist me-1"></i> ನನ್ನ ಬೆಳೆಗಳು',
+                nav_inquiries: '<i class="bi bi-chat-left-text me-1"></i> ನನ್ನ ವಿಚಾರಣೆಗಳು',
+                nav_login: "ಲಾಗಿನ್",
+                nav_register: "ನೋಂದಣಿ",
+                nav_logout: '<i class="bi bi-box-arrow-right me-1"></i> ಲಾಗ್ಔಟ್',
+                signed_in_as: "ಲಾಗಿನ್ ಆಗಿರುವವರು",
+                cookie_title: "ಕುಕೀ ಮತ್ತು ಸೆಷನ್ ಆದ್ಯತೆಗಳು",
+                cookie_text: "ನಿಮ್ಮ ಲಾಗಿನ್ ಮತ್ತು ಭಾಷಾ ಆದ್ಯತೆಗಳನ್ನು ಉಳಿಸಲು ನಾವು ಅಗತ್ಯ ಕುಕೀಗಳನ್ನು ಬಳಸುತ್ತೇವೆ.",
+                cookie_accept: "ಎಲ್ಲವನ್ನೂ ಒಪ್ಪಿಕೊಳ್ಳಿ",
+                cookie_essential: "ಅಗತ್ಯ ಮಾತ್ರ",
+                footer_mission: "ಕರ್ನಾಟಕ, ದಕ್ಷಿಣ ಕನ್ನಡ ಮತ್ತು ಉಡುಪಿಯ ಸಣ್ಣ ರೈತರಿಗೆ ನ್ಯಾಯಯುತ ಬೆಲೆ, ಮಧ್ಯವರ್ತಿಗಳಿಲ್ಲದ ನೇರ ಮಾರುಕಟ್ಟೆ ಮತ್ತು ವಿಶ್ವಾಸಾರ್ಹ ಖರೀದಿದಾರರ ಸಂಪರ್ಕ.",
+                footer_gov_tag: "ಕರ್ನಾಟಕ ಕೃಷಿ ಮಾರುಕಟ್ಟೆ ಉಪಕ್ರಮ",
+                footer_sec_market: "ಮಾರುಕಟ್ಟೆ",
+                footer_sec_resources: "ಯೋಜನೆಗಳು & APMC",
+                footer_sec_support: "ಬೆಂಬಲ & ನಿಯಮಗಳು",
+                foot_all_crops: "ಎಲ್ಲಾ ಬೆಳೆಗಳು",
+                foot_sell_produce: "ಬೆಳೆ ಮಾರಾಟ",
+                foot_arecanut: "ಅಡಿಕೆ (Arecanut)",
+                foot_coconut: "ತೆಂಗು (Coconut)",
+                foot_paddy: "ಭತ್ತ / ಅಕ್ಕಿ (Paddy)",
+                foot_raitha_mitra: "ರೈತ ಮಿತ್ರ ಕರ್ನಾಟಕ ↗",
+                foot_pm_kisan: "ಪಿ.ಎಂ ಕಿಸಾನ್ ಸಮ್ಮಾನ್ ನಿಧಿ ↗",
+                foot_apmc_rates: "ಕರ್ನಾಟಕ APMC ಮಾರುಕಟ್ಟೆ ದರಗಳು ↗",
+                foot_kvk: "ಕೃಷಿ ವಿಜ್ಞಾನ ಕೇಂದ್ರ (ಬ್ರಹ್ಮಾವರ / ಮಂಗಳೂರು) ↗",
+                foot_soil_health: "ಮಣ್ಣು ಆರೋಗ್ಯ ಕಾರ್ಡ್ ಯೋಜನೆ ↗",
+                foot_helpline: "ಕಿಸಾನ್ ಸಹಾಯವಾಣಿ:",
+                foot_hq: "ದಕ್ಷಿಣ ಕನ್ನಡ & ಉಡುಪಿ, ಕರ್ನಾಟಕ",
+                foot_cookies: "ಕುಕೀ ಆದ್ಯತೆಗಳು",
+                foot_privacy: "ಗೌಪ್ಯತಾ ನೀತಿ & ನಿಯಮಗಳು",
+                foot_rights: "ಕರ್ನಾಟಕ ಕೃಷಿ ಸಬಲೀಕರಣ.",
+                // General page UI keys
+                hero_tag: "ನೇರ ರೈತ-ಖರೀದಿದಾರ ಮಾರುಕಟ್ಟೆ",
+                hero_title: "ಕರ್ನಾಟಕ ಕೃಷಿ ನೆಟ್‌ವರ್ಕ್",
+                hero_desc: "ಮಧ್ಯವರ್ತಿಗಳ ಹಾವಳಿಯನ್ನು ತಪ್ಪಿಸಿ, ನ್ಯಾಯಯುತ ಬೆಲೆ ಪಡೆಯಿರಿ. ಅಡಿಕೆ, ತೆಂಗು, ಭತ್ತ, ಕಾಳುಮೆಣಸು, ಗೋಡಂಬಿ, ಜೋಳ ನೇರವಾಗಿ ರೈತರಿಂದಲೇ ಖರೀದಿಸಿ.",
+                btn_post_listing: '<i class="bi bi-plus-circle me-1"></i> ಬೆಳೆ ಮಾರಾಟಕ್ಕೆ ನೋಂದಾಯಿಸಿ',
+                btn_filter: '<i class="bi bi-funnel me-1"></i> ಶೋಧಿಸಿ',
+                ph_search: "ರೈತ, ಬೆಳೆ ಅಥವಾ ಊರಿನ ಹೆಸರು ಹುಡುಕಿ...",
+                ph_location: "ತಾಲೂಕು / ಊರಿನ ಪ್ರಕಾರ ಶೋಧಿಸಿ",
+                opt_all_crops: "ಎಲ್ಲಾ ಬೆಳೆಗಳು",
+                lbl_available_listings: "ಲಭ್ಯವಿರುವ ಬೆಳೆಗಳ ವಿವರ",
+                lbl_price: "ನಿರೀಕ್ಷಿತ ಬೆಲೆ",
+                lbl_quantity: "ಲಭ್ಯವಿರುವ ಪ್ರಮಾಣ",
+                lbl_quality: "ಗುಣಮಟ್ಟ ಶ್ರೇಣಿ:",
+                lbl_farm_size: "ಜಮೀನಿನ ವಿಸ್ತೀರ್ಣ:",
+                lbl_listed_by: "ನೋಂದಾಯಿಸಿದವರು:",
+                btn_view_details: 'ವಿವರಗಳನ್ನು ವೀಕ್ಷಿಸಿ <i class="bi bi-arrow-right ms-1"></i>',
+                btn_inquire: '<i class="bi bi-hand-thumbs-up me-1"></i> ಖರೀದಿಸಲು ಆಸಕ್ತಿ ವ್ಯಕ್ತಪಡಿಸಿ',
+            }
+        };
+
+        let currentLang = localStorage.getItem('km_language') || 'en';
+
+        function applyLanguage(lang) {
+            currentLang = lang;
+            localStorage.setItem('km_language', lang);
+            const dict = translations[lang] || translations.en;
+
+            // Update text elements
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (dict[key]) {
+                    el.innerHTML = dict[key];
+                }
+            });
+
+            // Update placeholder elements
+            document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+                const key = el.getAttribute('data-i18n-ph');
+                if (dict[key]) {
+                    el.setAttribute('placeholder', dict[key]);
+                }
+            });
+
+            // Update toggle button text
+            const label = document.getElementById('langLabel');
+            if (label) {
+                label.textContent = lang === 'en' ? 'ಕನ್ನಡ' : 'English';
+            }
+        }
+
+        function toggleLanguage() {
+            const nextLang = currentLang === 'en' ? 'kn' : 'en';
+            applyLanguage(nextLang);
+        }
+
+        // Cookie Window Functions
+        function checkCookieConsent() {
+            const consent = localStorage.getItem('km_cookie_consent');
+            if (!consent) {
+                document.getElementById('cookieWindow').classList.remove('hidden');
+            }
+        }
+
+        function acceptCookies(type) {
+            localStorage.setItem('km_cookie_consent', type);
+            document.getElementById('cookieWindow').classList.add('hidden');
+        }
+
+        function showCookieNotice() {
+            document.getElementById('cookieWindow').classList.remove('hidden');
+        }
+
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', () => {
+            applyLanguage(currentLang);
+            checkCookieConsent();
+        });
+    </script>
     {% block extra_js %}{% endblock %}
 </body>
 </html>
