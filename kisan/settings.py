@@ -128,18 +128,10 @@ WSGI_APPLICATION = 'kisan.wsgi.application'
 ASGI_APPLICATION = 'kisan.asgi.application'
 
 # Channels Configuration
-# Use Redis in production, InMemory for development
-REDIS_URL = os.environ.get('REDIS_URL', 'redis://localhost:6379/0')
+# Use Redis if REDIS_URL is provided, fallback to InMemory for development or single-instance Render free tier
+REDIS_URL = os.environ.get('REDIS_URL')
 
-if DEBUG:
-    # Development: use in-memory channel layer
-    CHANNEL_LAYERS = {
-        'default': {
-            'BACKEND': 'channels.layers.InMemoryChannelLayer',
-        }
-    }
-else:
-    # Production: use Redis
+if REDIS_URL:
     CHANNEL_LAYERS = {
         'default': {
             'BACKEND': 'channels_redis.core.RedisChannelLayer',
@@ -148,10 +140,16 @@ else:
                 'capacity': 1500,
                 'expiry': 10,
                 'group_expiry': 86400,
-                'symmetric_encryption_keys': [SECRET_KEY],
             },
         }
     }
+else:
+    CHANNEL_LAYERS = {
+        'default': {
+            'BACKEND': 'channels.layers.InMemoryChannelLayer',
+        }
+    }
+
 
 
 # Database
