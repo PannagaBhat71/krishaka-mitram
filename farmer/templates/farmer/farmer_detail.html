@@ -156,6 +156,7 @@
                                     <th>Email</th>
                                     <th>Role</th>
                                     <th>Date</th>
+                                    <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -165,6 +166,11 @@
                                     <td>{{ inq.Buyer.email|default:"N/A" }}</td>
                                     <td><span class="badge bg-light text-dark border">{{ inq.Buyer.role|title }}</span></td>
                                     <td>{{ inq.date_applied|date:"M d, Y" }}</td>
+                                    <td>
+                                        <a href="{% url 'chat:start_chat_with_buyer' inq.pk %}" class="btn btn-sm btn-success">
+                                            <i class="bi bi-chat-dots me-1"></i> Chat with Buyer
+                                        </a>
+                                    </td>
                                 </tr>
                                 {% endfor %}
                             </tbody>

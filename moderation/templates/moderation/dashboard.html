@@ -1,0 +1,386 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Moderation Dashboard | Krishaka Mitram{% endblock %}
+
+{% block extra_head %}
+<style>
+    .stat-card {
+        border: none;
+        border-radius: 12px;
+        transition: transform 0.2s ease;
+    }
+    .stat-card:hover { transform: translateY(-2px); }
+    .stat-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .filter-panel {
+        background: #f8fafc;
+        border: 1px solid var(--km-border);
+        border-radius: 12px;
+        padding: 1.25rem;
+        margin-bottom: 1.5rem;
+    }
+    .violation-row {
+        transition: background-color 0.15s ease;
+    }
+    .violation-row:hover { background-color: #f8fafc; }
+    .severity-badge {
+        font-size: 0.7rem;
+        padding: 0.2rem 0.5rem;
+        border-radius: 4px;
+    }
+    .status-badge {
+        font-size: 0.7rem;
+        padding: 0.2rem 0.5rem;
+        border-radius: 4px;
+    }
+    .detected-content-preview {
+        font-family: monospace;
+        font-size: 0.8rem;
+        max-width: 200px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <!-- Header -->
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+            <div>
+                <h3 class="fw-bold mb-1" data-i18n="mod_dashboard_title">
+                    <i class="bi bi-shield-lock me-2 text-danger"></i> Moderation Dashboard
+                </h3>
+                <p class="text-muted small mb-0" data-i18n="mod_dashboard_subtitle">
+                    Review and resolve policy violations from farmer-buyer chats
+                </p>
+            </div>
+            <div class="d-flex gap-2">
+                {% if user.is_owner %}
+                <a href="{% url 'moderation:filter_rules' %}" class="btn btn-outline-secondary btn-sm" data-i18n="mod_btn_rules">
+                    <i class="bi bi-sliders me-1"></i> Filter Rules
+                </a>
+                <a href="{% url 'moderation:user_restrictions' %}" class="btn btn-outline-secondary btn-sm" data-i18n="mod_btn_restrictions">
+                    <i class="bi bi-people me-1"></i> User Restrictions
+                </a>
+                {% endif %}
+                <a href="{% url 'moderation:moderation_logout' %}" class="btn btn-outline-danger btn-sm" data-i18n="mod_btn_logout">
+                    <i class="bi bi-box-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="row g-3 mb-4">
+            <div class="col-xl-2 col-md-4 col-6">
+                <div class="card stat-card bg-danger text-white">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <div class="stat-icon bg-danger bg-opacity-25">
+                                    <i class="bi bi-exclamation-triangle fs-4"></i>
+                                </div>
+                                <div class="fs-4 fw-bold mt-2">{{ stats.new }}</div>
+                                <div class="small text-white-50" data-i18n="mod_stat_new">New</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-2 col-md-4 col-6">
+                <div class="card stat-card bg-warning text-dark">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <div class="stat-icon bg-warning bg-opacity-25">
+                                    <i class="bi bi-eye fs-4"></i>
+                                </div>
+                                <div class="fs-4 fw-bold mt-2">{{ stats.viewed }}</div>
+                                <div class="small text-muted" data-i18n="mod_stat_viewed">Viewed</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-2 col-md-4 col-6">
+                <div class="card stat-card bg-info text-white">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <div class="stat-icon bg-info bg-opacity-25">
+                                    <i class="bi bi-hourglass-split fs-4"></i>
+                                </div>
+                                <div class="fs-4 fw-bold mt-2">{{ stats.pending }}</div>
+                                <div class="small text-white-50" data-i18n="mod_stat_pending">Pending</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-2 col-md-4 col-6">
+                <div class="card stat-card bg-success text-white">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <div class="stat-icon bg-success bg-opacity-25">
+                                    <i class="bi bi-check-circle fs-4"></i>
+                                </div>
+                                <div class="fs-4 fw-bold mt-2">{{ stats.resolved }}</div>
+                                <div class="small text-white-50" data-i18n="mod_stat_resolved">Resolved</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-2 col-md-4 col-6">
+                <div class="card stat-card bg-primary text-white">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <div class="stat-icon bg-primary bg-opacity-25">
+                                    <i class="bi bi-person-badge fs-4"></i>
+                                </div>
+                                <div class="fs-4 fw-bold mt-2">{{ stats.my_assigned }}</div>
+                                <div class="small text-white-50" data-i18n="mod_stat_my">My Queue</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-2 col-md-4 col-6">
+                <div class="card stat-card bg-secondary text-white">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <div class="stat-icon bg-secondary bg-opacity-25">
+                                    <i class="bi bi-activity fs-4"></i>
+                                </div>
+                                <div class="fs-4 fw-bold mt-2">{{ stats.total_active }}</div>
+                                <div class="small text-white-50" data-i18n="mod_stat_active">Active</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filter Panel -->
+        <form method="get" class="filter-panel" id="filterForm">
+            <div class="row g-3 align-items-end">
+                <div class="col-md-3">
+                    <label class="form-label small fw-semibold" data-i18n="mod_filter_status">Status</label>
+                    <select name="status" class="form-select form-select-sm">
+                        <option value="">All Statuses</option>
+                        {% for value, label in status_choices %}
+                            <option value="{{ value }}" {% if current_filters.status == value %}selected{% endif %}>{{ label }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label small fw-semibold" data-i18n="mod_filter_severity">Severity</label>
+                    <select name="severity" class="form-select form-select-sm">
+                        <option value="">All</option>
+                        {% for value, label in severity_choices %}
+                            <option value="{{ value }}" {% if current_filters.severity == value %}selected{% endif %}>{{ label }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label small fw-semibold" data-i18n="mod_filter_type">Type</label>
+                    <select name="rule_type" class="form-select form-select-sm">
+                        <option value="">All Types</option>
+                        {% for value, label in rule_type_choices %}
+                            <option value="{{ value }}" {% if current_filters.rule_type == value %}selected{% endif %}>{{ label }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label small fw-semibold" data-i18n="mod_filter_assigned">Assigned</label>
+                    <select name="assigned" class="form-select form-select-sm">
+                        <option value="">All</option>
+                        <option value="me" {% if current_filters.assigned == 'me' %}selected{% endif %}>My Assigned</option>
+                        <option value="unassigned" {% if current_filters.assigned == 'unassigned' %}selected{% endif %}>Unassigned</option>
+                    </select>
+                </div>
+                <div class="col-md-1">
+                    <label class="form-label small fw-semibold" data-i18n="mod_filter_from">From</label>
+                    <input type="date" name="date_from" class="form-control form-control-sm" value="{{ current_filters.date_from }}">
+                </div>
+                <div class="col-md-1">
+                    <label class="form-label small fw-semibold" data-i18n="mod_filter_to">To</label>
+                    <input type="date" name="date_to" class="form-control form-control-sm" value="{{ current_filters.date_to }}">
+                </div>
+                <div class="col-md-1">
+                    <button type="submit" class="btn btn-agri-primary btn-sm w-100" data-i18n="mod_btn_filter">Apply</button>
+                </div>
+            </div>
+            <div class="row g-3 mt-2">
+                <div class="col-md-6">
+                    <label class="form-label small fw-semibold" data-i18n="mod_filter_search">Search</label>
+                    <input type="text" name="search" class="form-control form-control-sm"
+                           placeholder="Username, conversation ID, rule name, detected content..."
+                           value="{{ current_filters.search }}">
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <a href="{% url 'moderation:moderation_dashboard' %}" class="btn btn-outline-secondary btn-sm" data-i18n="mod_btn_clear">Clear Filters</a>
+                </div>
+            </div>
+        </form>
+
+        <!-- Violations Table -->
+        <div class="card card-custom">
+            <div class="card-header bg-white border-bottom d-flex justify-content-between align-items-center">
+                <h5 class="fw-bold mb-0" data-i18n="mod_violations_title">Policy Violations</h5>
+                <span class="badge bg-secondary fs-6">{{ page_obj.paginator.count }} total</span>
+            </div>
+            <div class="card-body p-0">
+                {% if page_obj %}
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th class="small" style="width: 50px;">ID</th>
+                                    <th class="small" data-i18n="mod_col_status">Status</th>
+                                    <th class="small" data-i18n="mod_col_severity">Severity</th>
+                                    <th class="small" data-i18n="mod_col_type">Type</th>
+                                    <th class="small" data-i18n="mod_col_user">Sender</th>
+                                    <th class="small" data-i18n="mod_col_detected">Detected Content</th>
+                                    <th class="small" data-i18n="mod_col_conversation">Conversation</th>
+                                    <th class="small" data-i18n="mod_col_assigned">Assigned</th>
+                                    <th class="small" data-i18n="mod_col_created">Created</th>
+                                    <th class="small" style="width: 80px;" data-i18n="mod_col_actions">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for violation in page_obj %}
+                                <tr class="violation-row {% if violation.status == 'NEW' %}fw-bold{% endif %}">
+                                    <td class="small">{{ violation.id }}</td>
+                                    <td>
+                                        <span class="status-badge
+                                            {% if violation.status == 'NEW' %}bg-danger text-white
+                                            {% elif violation.status == 'VIEWED' %}bg-warning text-dark
+                                            {% elif violation.status == 'PENDING_ACTION' %}bg-info text-white
+                                            {% else %}bg-success text-white{% endif %}">
+                                            {{ violation.get_status_display }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="severity-badge
+                                            {% if violation.severity == 'critical' %}bg-danger text-white
+                                            {% elif violation.severity == 'high' %}bg-warning text-dark
+                                            {% elif violation.severity == 'medium' %}bg-info text-white
+                                            {% else %}bg-secondary text-white{% endif %}">
+                                            {{ violation.get_severity_display }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-light text-dark border small">{{ violation.rule.get_rule_type_display }}</span>
+                                    </td>
+                                    <td class="small">
+                                        {% if violation.message %}
+                                        <a href="#" class="text-decoration-none fw-semibold">{{ violation.message.sender.username }}</a>
+                                        <br><span class="badge bg-secondary" style="font-size: 0.6rem;">{{ violation.message.sender.get_role_display }}</span>
+                                        {% else %}
+                                        <span class="text-muted fst-italic" data-i18n="mod_blocked_no_sender">N/A (Blocked)</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <span class="detected-content-preview text-muted" title="{{ violation.detected_content }}">
+                                            {{ violation.detected_content|truncatechars:60 }}
+                                        </span>
+                                    </td>
+                                    <td class="small">
+                                        <a href="{% url 'chat:chat_detail' conversation_id=violation.message.conversation.id %}"
+                                           class="text-decoration-none text-primary" target="_blank">
+                                            #{{ violation.message.conversation.id }}
+                                        </a>
+                                        {% if violation.message.conversation.farmer_listing %}
+                                            <br><small class="text-muted">{{ violation.message.conversation.farmer_listing.crop_name.name }}</small>
+                                        {% endif %}
+                                    </td>
+                                    <td class="small">
+                                        {% if violation.assigned_moderator %}
+                                            <span class="text-success fw-semibold">
+                                                <i class="bi bi-person-check-fill me-1"></i>{{ violation.assigned_moderator.username }}
+                                            </span>
+                                        {% else %}
+                                            <span class="text-muted fst-italic" data-i18n="mod_unassigned">Unassigned</span>
+                                        {% endif %}
+                                    </td>
+                                    <td class="small text-muted">{{ violation.created_at|date:"M d, H:i" }}</td>
+                                    <td>
+                                        <a href="{% url 'moderation:incident_detail' incident_id=violation.incident.id %}"
+                                           class="btn btn-sm btn-outline-primary" title="View Details">
+                                            <i class="bi bi-eye"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Pagination -->
+                    {% if page_obj.paginator.num_pages > 1 %}
+                    <div class="card-footer bg-white border-top d-flex justify-content-center">
+                        <nav aria-label="Violations pagination">
+                            <ul class="pagination pagination-sm mb-0">
+                                {% if page_obj.has_previous %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?{% for key, value in current_filters.items %}{% if value %}{{ key }}={{ value }}&{% endif %}{% endfor %}page={{ page_obj.previous_page_number }}">&laquo;</a>
+                                    </li>
+                                {% endif %}
+                                {% for num in page_obj.paginator.page_range %}
+                                    {% if page_obj.number == num %}
+                                        <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+                                    {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                                        <li class="page-item">
+                                            <a class="page-link" href="?{% for key, value in current_filters.items %}{% if value %}{{ key }}={{ value }}&{% endif %}{% endfor %}page={{ num }}">{{ num }}</a>
+                                        </li>
+                                    {% endif %}
+                                {% endfor %}
+                                {% if page_obj.has_next %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?{% for key, value in current_filters.items %}{% if value %}{{ key }}={{ value }}&{% endif %}{% endfor %}page={{ page_obj.next_page_number }}">&raquo;</a>
+                                    </li>
+                                {% endif %}
+                            </ul>
+                        </nav>
+                    </div>
+                    {% endif %}
+                {% else %}
+                    <div class="text-center py-5 text-muted">
+                        <i class="bi bi-shield-check fs-1 text-success"></i>
+                        <h6 class="fw-bold mt-2 mb-1" data-i18n="mod_no_violations">No Violations Found</h6>
+                        <p class="small mb-0">All clear! No policy violations match your current filters.</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block extra_scripts %}
+<script>
+    // Auto-refresh unread count for navbar badge
+    async function updateUnreadCount() {
+        try {
+            const res = await fetch('{% url "moderation:api_unread_count" %}');
+            const data = await res.json();
+            // Update any UI elements if needed
+        } catch (e) {}
+    }
+    setInterval(updateUnreadCount, 30000);
+    updateUnreadCount();
+</script>
+{% endblock %}
+{% endblock %}

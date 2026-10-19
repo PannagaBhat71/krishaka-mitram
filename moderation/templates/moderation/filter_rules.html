@@ -1,0 +1,282 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Filter Rules Management | Krishaka Mitram{% endblock %}
+
+{% block extra_head %}
+<style>
+    .rule-card {
+        border: 1px solid var(--km-border);
+        border-radius: 12px;
+        transition: box-shadow 0.2s ease;
+    }
+    .rule-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.06); }
+    .rule-type-badge {
+        font-size: 0.7rem;
+        padding: 0.2rem 0.5rem;
+        border-radius: 4px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <!-- Header -->
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+            <div>
+                <h3 class="fw-bold mb-1" data-i18n="mod_rules_title">
+                    <i class="bi bi-sliders me-2 text-primary"></i> Filter Rules Management
+                </h3>
+                <p class="text-muted small mb-0" data-i18n="mod_rules_subtitle">
+                    Configure content detection rules for chat filtering. Owner access only.
+                </p>
+            </div>
+            <div class="d-flex gap-2">
+                <a href="{% url 'moderation:moderation_dashboard' %}" class="btn btn-outline-secondary btn-sm" data-i18n="mod_btn_back">
+                    <i class="bi bi-arrow-left me-1"></i> Back to Dashboard
+                </a>
+                <a href="{% url 'moderation:moderation_logout' %}" class="btn btn-outline-danger btn-sm" data-i18n="mod_btn_logout">
+                    <i class="bi bi-box-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- Create/Edit Rule Form -->
+        <div class="card card-custom mb-4">
+            <div class="card-header bg-white border-bottom">
+                <h5 class="fw-bold mb-0" data-i18n="mod_rules_form_title">
+                    <i class="bi bi-plus-circle me-1"></i> {% if editing_rule %}Edit Rule{% else %}Create New Rule{% endif %}
+                </h5>
+            </div>
+            <div class="card-body">
+                <form method="post" id="ruleForm">
+                    {% csrf_token %}
+                    {% if editing_rule %}
+                        <input type="hidden" name="form_action" value="update">
+                        <input type="hidden" name="rule_id" value="{{ editing_rule.id }}">
+                    {% else %}
+                        <input type="hidden" name="form_action" value="create">
+                    {% endif %}
+
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold" data-i18n="mod_rules_name">Rule Name *</label>
+                            <input type="text" name="name" class="form-control" required
+                                   value="{{ editing_rule.name|default:'' }}" placeholder="e.g., UPI ID Detection">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold" data-i18n="mod_rules_type">Rule Type *</label>
+                            <select name="rule_type" class="form-select" required>
+                                <option value="">Select Type</option>
+                                {% for value, label in rule_type_choices %}
+                                    <option value="{{ value }}" {% if editing_rule and editing_rule.rule_type == value %}selected{% endif %}>{{ label }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold" data-i18n="mod_rules_severity">Severity *</label>
+                            <select name="severity" class="form-select" required>
+                                {% for value, label in severity_choices %}
+                                    <option value="{{ value }}" {% if editing_rule and editing_rule.severity == value %}selected{% endif %}>{{ label }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold" data-i18n="mod_rules_action">Enforcement Action *</label>
+                            <select name="enforcement_action" class="form-select" required>
+                                {% for value, label in action_choices %}
+                                    <option value="{{ value }}" {% if editing_rule and editing_rule.action == value %}selected{% endif %}>{{ label }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label fw-semibold" data-i18n="mod_rules_pattern">Regex Pattern (for custom rules)</label>
+                            <input type="text" name="pattern" class="form-control font-monospace"
+                                   value="{{ editing_rule.pattern|default:'' }}"
+                                   placeholder="e.g., \\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}\\b">
+                            <div class="form-text">Used for "Custom Regex" type. Leave empty for built-in detectors.</div>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label fw-semibold" data-i18n="mod_rules_desc">Description</label>
+                            <textarea name="description" class="form-control" rows="2"
+                                      placeholder="Explain what this rule detects and why...">{{ editing_rule.description|default:'' }}</textarea>
+                        </div>
+                        <div class="col-12">
+                            <div class="d-flex gap-2">
+                                {% if editing_rule %}
+                                    <button type="submit" class="btn btn-primary" data-i18n="mod_btn_update">
+                                        <i class="bi bi-save me-1"></i> Update Rule
+                                    </button>
+                                    <a href="{% url 'moderation:filter_rules' %}" class="btn btn-secondary" data-i18n="mod_btn_cancel">Cancel</a>
+                                {% else %}
+                                    <button type="submit" class="btn btn-primary" data-i18n="mod_btn_create">
+                                        <i class="bi bi-plus-circle me-1"></i> Create Rule
+                                    </button>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Rules List -->
+        <div class="card card-custom">
+            <div class="card-header bg-white border-bottom">
+                <h5 class="fw-bold mb-0" data-i18n="mod_rules_list_title">Existing Filter Rules</h5>
+            </div>
+            <div class="card-body p-0">
+                {% if rules %}
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th class="small" style="width: 50px;">ID</th>
+                                    <th class="small" data-i18n="mod_col_name">Name</th>
+                                    <th class="small" data-i18n="mod_col_type">Type</th>
+                                    <th class="small" data-i18n="mod_col_severity">Severity</th>
+                                    <th class="small" data-i18n="mod_col_action">Action</th>
+                                    <th class="small" data-i18n="mod_col_status">Status</th>
+                                    <th class="small" data-i18n="mod_col_pattern">Pattern</th>
+                                    <th class="small" data-i18n="mod_col_violations">Violations</th>
+                                    <th class="small" data-i18n="mod_col_created">Created</th>
+                                    <th class="small" style="width: 120px;" data-i18n="mod_col_actions">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for rule in rules %}
+                                <tr>
+                                    <td class="small">{{ rule.id }}</td>
+                                    <td class="fw-semibold">{{ rule.name }}</td>
+                                    <td>
+                                        <span class="rule-type-badge bg-light text-dark border">{{ rule.get_rule_type_display }}</span>
+                                    </td>
+                                    <td>
+                                        <span class="badge
+                                            {% if rule.severity == 'critical' %}bg-danger
+                                            {% elif rule.severity == 'high' %}bg-warning text-dark
+                                            {% elif rule.severity == 'medium' %}bg-info
+                                            {% else %}bg-secondary{% endif %} fs-6">
+                                            {{ rule.get_severity_display }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="badge
+                                            {% if rule.action == 'block' %}bg-danger
+                                            {% elif rule.action == 'warn' %}bg-warning text-dark
+                                            {% else %}bg-secondary{% endif %} fs-6">
+                                            {{ rule.get_action_display }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <form method="post" class="d-inline" style="display: inline;">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="action" value="toggle">
+                                            <input type="hidden" name="rule_id" value="{{ rule.id }}">
+                                            <button type="submit" class="btn btn-sm {% if rule.is_active %}btn-success{% else %}btn-outline-secondary{% endif %} px-3 py-1" style="font-size: 0.75rem;">
+                                                {% if rule.is_active %}
+                                                    <i class="bi bi-toggle-on me-1"></i>Active
+                                                {% else %}
+                                                    <i class="bi bi-toggle-off me-1"></i>Inactive
+                                                {% endif %}
+                                            </button>
+                                        </form>
+                                    </td>
+                                    <td class="small">
+                                        {% if rule.pattern %}
+                                            <code class="text-truncate d-block" style="max-width: 200px;">{{ rule.pattern|truncatechars:50 }}</code>
+                                        {% else %}
+                                            <span class="text-muted fst-italic" data-i18n="mod_rules_builtin">Built-in detector</span>
+                                        {% endif %}
+                                    </td>
+                                    <td class="small">
+                                        <span class="badge bg-secondary">{{ rule.violations.count }}</span>
+                                    </td>
+                                    <td class="small text-muted">{{ rule.created_at|date:"M d, Y" }}</td>
+                                    <td>
+                                        <div class="btn-group btn-group-sm">
+                                            <a href="{% url 'moderation:filter_rules' %}?edit={{ rule.id }}"
+                                               class="btn btn-outline-primary" title="Edit">
+                                                <i class="bi bi-pencil"></i>
+                                            </a>
+                                            <form method="post" class="d-inline" onsubmit="return confirm('Delete this rule?');">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="action" value="delete">
+                                                <input type="hidden" name="rule_id" value="{{ rule.id }}">
+                                                <button type="submit" class="btn btn-outline-danger" title="Delete">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <div class="text-center py-5 text-muted">
+                        <i class="bi bi-sliders fs-1 text-primary"></i>
+                        <h6 class="fw-bold mt-2 mb-1" data-i18n="mod_rules_empty">No Rules Configured</h6>
+                        <p class="small mb-0">Create your first filter rule above to start customizing content detection.</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Built-in Detectors Info -->
+        <div class="card card-custom mt-4">
+            <div class="card-header bg-white border-bottom">
+                <h5 class="fw-bold mb-0" data-i18n="mod_rules_builtin_title">Built-in Detectors (Always Active)</h5>
+            </div>
+            <div class="card-body">
+                <div class="row g-3 small">
+                    <div class="col-md-6">
+                        <div class="p-3 bg-light rounded">
+                            <strong class="text-danger"><i class="bi bi-phone-fill me-1"></i> Phone Numbers</strong>
+                            <p class="mb-0 mt-1 small">Indian mobile formats (+91, 0 prefix, 10-digit), word-spelled numbers (English/Kannada)</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="p-3 bg-light rounded">
+                            <strong class="text-danger"><i class="bi bi-envelope-fill me-1"></i> Email Addresses</strong>
+                            <p class="mb-0 mt-1 small">Standard RFC 5322 + obfuscated (user at domain dot com)</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="p-3 bg-light rounded">
+                            <strong class="text-danger"><i class="bi bi-qr-code-scan me-1"></i> UPI IDs / VPA</strong>
+                            <p class="mb-0 mt-1 small">All major handles (okhdfcbank, paytm, ybl, upi, etc.) + obfuscated forms</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="p-3 bg-light rounded">
+                            <strong class="text-danger"><i class="bi bi-bank me-1"></i> Bank Details</strong>
+                            <p class="mb-0 mt-1 small">IFSC codes, account numbers (9-18 digits with context), card numbers (Luhn)</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="p-3 bg-light rounded">
+                            <strong class="text-warning"><i class="bi bi-globe me-1"></i> URLs / Social Links</strong>
+                            <p class="mb-0 mt-1 small">http(s)://, www., wa.me, t.me, instagram, facebook, youtube, etc.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="p-3 bg-light rounded">
+                            <strong class="text-warning"><i class="bi bi-geo-alt me-1"></i> Addresses</strong>
+                            <p class="mb-0 mt-1 small">Indian PIN codes (Karnataka 560000-599999), address keyword clusters</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="p-3 bg-light rounded">
+                            <strong class="text-danger"><i class="bi bi-shield-exclamation me-1"></i> Prohibited Keywords</strong>
+                            <p class="mb-0 mt-1 small">Platform bypass, advance payment fraud, direct deal, contact offloading</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

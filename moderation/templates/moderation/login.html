@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Moderation Login | Krishaka Mitram{% endblock %}
+
+{% block extra_head %}
+<style>
+    .moderation-login-card {
+        max-width: 420px;
+        margin: 2rem auto;
+    }
+    .moderation-login-icon {
+        width: 72px;
+        height: 72px;
+        background: linear-gradient(135deg, #dc3545, #fd7e14);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1.5rem;
+    }
+    .moderation-login-icon i {
+        font-size: 2rem;
+        color: white;
+    }
+    .form-floating > label {
+        color: var(--km-text-muted);
+    }
+    .form-control:focus {
+        border-color: #dc3545;
+        box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.15);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="moderation-login-card">
+    <div class="card card-custom">
+        <div class="card-body p-5">
+            <div class="moderation-login-icon">
+                <i class="bi bi-shield-lock"></i>
+            </div>
+
+            <h2 class="text-center mb-1" data-i18n="mod_login_title">Moderator Login</h2>
+            <p class="text-center text-muted mb-4" data-i18n="mod_login_subtitle">Secure access to moderation dashboard</p>
+
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags|default:'info' }} border-0 shadow-sm alert-dismissible fade show" role="alert">
+                        <i class="bi bi-info-circle me-2"></i> {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            <form method="post" novalidate>
+                {% csrf_token %}
+
+                <div class="form-floating mb-3">
+                    <input type="text" name="username" class="form-control" id="id_username" placeholder="Username" required autofocus>
+                    <label for="id_username" data-i18n="mod_label_username">Username</label>
+                </div>
+
+                <div class="form-floating mb-4">
+                    <input type="password" name="password" class="form-control" id="id_password" placeholder="Password" required>
+                    <label for="id_password" data-i18n="mod_label_password">Password</label>
+                </div>
+
+                <div class="d-grid mb-3">
+                    <button type="submit" class="btn btn-danger w-100" data-i18n="mod_btn_login">
+                        <i class="bi bi-shield-lock me-1"></i> Access Dashboard
+                    </button>
+                </div>
+
+                <div class="text-center">
+                    <a href="{% url 'login' %}" class="text-decoration-none small" data-i18n="mod_back_to_main">← Back to Main Site</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="text-center mt-3 text-muted small">
+        <p data-i18n="mod_login_note">Authorized personnel only. All actions are logged for audit purposes.</p>
+    </div>
+</div>
+{% endblock %}

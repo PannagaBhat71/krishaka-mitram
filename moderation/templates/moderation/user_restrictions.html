@@ -1,0 +1,220 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}User Restrictions | Krishaka Mitram{% endblock %}
+
+{% block extra_head %}
+<style>
+    .restriction-type-badge {
+        font-size: 0.7rem;
+        padding: 0.2rem 0.5rem;
+        border-radius: 4px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <!-- Header -->
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+            <div>
+                <h3 class="fw-bold mb-1" data-i18n="mod_rest_title">
+                    <i class="bi bi-people me-2 text-danger"></i> User Restrictions Management
+                </h3>
+                <p class="text-muted small mb-0" data-i18n="mod_rest_subtitle">
+                    View and manage chat restrictions applied to users. Owner access only.
+                </p>
+            </div>
+            <div class="d-flex gap-2">
+                <a href="{% url 'moderation:moderation_dashboard' %}" class="btn btn-outline-secondary btn-sm" data-i18n="mod_btn_back">
+                    <i class="bi bi-arrow-left me-1"></i> Back to Dashboard
+                </a>
+                <a href="{% url 'moderation:filter_rules' %}" class="btn btn-outline-secondary btn-sm" data-i18n="mod_btn_rules">
+                    <i class="bi bi-sliders me-1"></i> Filter Rules
+                </a>
+                <a href="{% url 'moderation:moderation_logout' %}" class="btn btn-outline-danger btn-sm" data-i18n="mod_btn_logout">
+                    <i class="bi bi-box-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- Restrictions Table -->
+        <div class="card card-custom">
+            <div class="card-header bg-white border-bottom d-flex justify-content-between align-items-center">
+                <h5 class="fw-bold mb-0" data-i18n="mod_rest_list_title">Active & Past Restrictions</h5>
+                <span class="badge bg-secondary fs-6">{{ page_obj.paginator.count }} total</span>
+            </div>
+            <div class="card-body p-0">
+                {% if page_obj %}
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th class="small" style="width: 50px;">ID</th>
+                                    <th class="small" data-i18n="mod_col_user">User</th>
+                                    <th class="small" data-i18n="mod_col_type">Type</th>
+                                    <th class="small" data-i18n="mod_col_reason">Reason</th>
+                                    <th class="small" data-i18n="mod_col_starts">Starts</th>
+                                    <th class="small" data-i18n="mod_col_ends">Ends</th>
+                                    <th class="small" data-i18n="mod_col_status">Status</th>
+                                    <th class="small" data-i18n="mod_col_violation">Linked Violation</th>
+                                    <th class="small" data-i18n="mod_col_created_by">Created By</th>
+                                    <th class="small" style="width: 100px;" data-i18n="mod_col_actions">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for restriction in page_obj %}
+                                <tr>
+                                    <td class="small">{{ restriction.id }}</td>
+                                    <td>
+                                        <div class="fw-semibold">{{ restriction.user.username }}</div>
+                                        <small class="badge bg-secondary" style="font-size: 0.6rem;">{{ restriction.user.get_role_display }}</small>
+                                    </td>
+                                    <td>
+                                        <span class="restriction-type-badge
+                                            {% if restriction.restriction_type == 'permanent' %}bg-danger text-white
+                                            {% elif restriction.restriction_type == 'chat_only' %}bg-warning text-dark
+                                            {% else %}bg-info text-white{% endif %}">
+                                            {{ restriction.get_restriction_type_display }}
+                                        </span>
+                                    </td>
+                                    <td class="small">
+                                        <span class="text-truncate d-block" style="max-width: 250px;">{{ restriction.reason|truncatechars:80 }}</span>
+                                    </td>
+                                    <td class="small">{{ restriction.starts_at|date:"M d, Y H:i" }}</td>
+                                    <td class="small">
+                                        {% if restriction.ends_at %}
+                                            {{ restriction.ends_at|date:"M d, Y H:i" }}
+                                        {% else %}
+                                            <span class="text-muted fst-italic" data-i18n="mod_rest_permanent">Permanent</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if restriction.is_active %}
+                                            <span class="badge bg-success fs-6" data-i18n="mod_rest_active">Active</span>
+                                        {% else %}
+                                            <span class="badge bg-secondary fs-6" data-i18n="mod_rest_expired">Expired/Lifted</span>
+                                        {% endif %}
+                                    </td>
+                                    <td class="small">
+                                        {% if restriction.violation %}
+                                            <a href="{% url 'moderation:incident_detail' incident_id=restriction.violation.incident.id %}"
+                                               class="text-decoration-none text-primary" target="_blank">
+                                                #{{ restriction.violation.incident.id }}
+                                            </a>
+                                        {% else %}
+                                            <span class="text-muted fst-italic" data-i18n="mod_rest_manual">Manual</span>
+                                        {% endif %}
+                                    </td>
+                                    <td class="small">
+                                        {% if restriction.created_by %}
+                                            {{ restriction.created_by.username }}
+                                        {% else %}
+                                            <span class="text-muted">System</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if restriction.is_active and restriction.restriction_type != 'permanent' %}
+                                            <form method="post" action="{% url 'moderation:lift_restriction' restriction_id=restriction.id %}" class="d-inline">
+                                                {% csrf_token %}
+                                                <button type="submit" class="btn btn-sm btn-success"
+                                                        onclick="return confirm('Lift this restriction and restore user chat access?');"
+                                                        data-i18n="mod_rest_lift">
+                                                    <i class="bi bi-unlock me-1"></i> Lift
+                                                </button>
+                                            </form>
+                                        {% elif restriction.is_active and restriction.restriction_type == 'permanent' %}
+                                            <span class="badge bg-danger" data-i18n="mod_rest_permanent_badge">Permanent</span>
+                                        {% else %}
+                                            <span class="text-muted small" data-i18n="mod_rest_lifted">Lifted</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Pagination -->
+                    {% if page_obj.paginator.num_pages > 1 %}
+                    <div class="card-footer bg-white border-top d-flex justify-content-center">
+                        <nav aria-label="Restrictions pagination">
+                            <ul class="pagination pagination-sm mb-0">
+                                {% if page_obj.has_previous %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}">&laquo;</a>
+                                    </li>
+                                {% endif %}
+                                {% for num in page_obj.paginator.page_range %}
+                                    {% if page_obj.number == num %}
+                                        <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+                                    {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                                        <li class="page-item">
+                                            <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                                        </li>
+                                    {% endif %}
+                                {% endfor %}
+                                {% if page_obj.has_next %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ page_obj.next_page_number }}">&raquo;</a>
+                                    </li>
+                                {% endif %}
+                            </ul>
+                        </nav>
+                    </div>
+                    {% endif %}
+                {% else %}
+                    <div class="text-center py-5 text-muted">
+                        <i class="bi bi-people fs-1 text-success"></i>
+                        <h6 class="fw-bold mt-2 mb-1" data-i18n="mod_rest_none">No Restrictions</h6>
+                        <p class="small mb-0">No user restrictions have been applied yet.</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Summary Stats -->
+        <div class="row g-3 mt-4">
+            <div class="col-md-3">
+                <div class="card card-custom text-center">
+                    <div class="card-body">
+                        <div class="fs-3 fw-bold text-danger">{{ page_obj.object_list|length|add:0 }}</div>
+                        <div class="small text-muted" data-i18n="mod_rest_total">Total Records</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card card-custom text-center">
+                    <div class="card-body">
+                        {% with active_count=page_obj.object_list|length|add:0 %}
+                            <div class="fs-3 fw-bold text-success">{{ active_count }}</div>
+                        {% endwith %}
+                        <div class="small text-muted" data-i18n="mod_rest_active">Active (approx)</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card card-custom text-center">
+                    <div class="card-body">
+                        {% with permanent_count=0 %}
+                            <div class="fs-3 fw-bold text-danger">{{ permanent_count }}</div>
+                        {% endwith %}
+                        <div class="small text-muted" data-i18n="mod_rest_permanent">Permanent Bans</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card card-custom text-center">
+                    <div class="card-body">
+                        {% with temp_count=0 %}
+                            <div class="fs-3 fw-bold text-warning">{{ temp_count }}</div>
+                        {% endwith %}
+                        <div class="small text-muted" data-i18n="mod_rest_temporary">Temporary</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

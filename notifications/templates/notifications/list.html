@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Notifications | Krishaka Mitram{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h3 class="fw-bold mb-1">
+                    <i class="bi bi-bell me-2 text-success"></i> Notifications
+                </h3>
+                <p class="text-muted small mb-0">System updates, chat alerts, and moderation notices</p>
+            </div>
+            {% if unread_count > 0 %}
+                <form method="post" action="{% url 'notifications:mark_all_read' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-outline-secondary btn-sm">
+                        <i class="bi bi-check2-all me-1"></i> Mark All as Read
+                    </button>
+                </form>
+            {% endif %}
+        </div>
+
+        <div class="card card-custom">
+            <div class="card-body p-0">
+                {% if page_obj %}
+                    <div class="list-group list-group-flush">
+                        {% for n in page_obj %}
+                            <div class="list-group-item p-3 {% if not n.is_read %}bg-light border-start border-4 border-success{% endif %}">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div class="d-flex gap-3">
+                                        <div class="mt-1">
+                                            {% if n.notification_type == 'chat_message' %}
+                                                <i class="bi bi-chat-dots-fill text-primary fs-5"></i>
+                                            {% elif 'violation' in n.notification_type %}
+                                                <i class="bi bi-shield-exclamation text-danger fs-5"></i>
+                                            {% elif 'restricted' in n.notification_type %}
+                                                <i class="bi bi-person-slash text-warning fs-5"></i>
+                                            {% else %}
+                                                <i class="bi bi-info-circle-fill text-secondary fs-5"></i>
+                                            {% endif %}
+                                        </div>
+                                        <div>
+                                            <h6 class="fw-bold mb-1 {% if not n.is_read %}text-dark{% else %}text-muted{% endif %}">
+                                                {{ n.title }}
+                                            </h6>
+                                            <p class="text-muted small mb-1">{{ n.message }}</p>
+                                            <small class="text-muted" style="font-size: 0.75rem;">
+                                                <i class="bi bi-clock me-1"></i>{{ n.created_at|timesince }} ago
+                                            </small>
+                                        </div>
+                                    </div>
+                                    {% if not n.is_read %}
+                                        <form method="post" action="{% url 'notifications:mark_read' notification_id=n.id %}">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-sm btn-outline-secondary py-0 px-2" style="font-size: 0.75rem;" title="Mark as read">
+                                                <i class="bi bi-check"></i>
+                                            </button>
+                                        </form>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                    {% if page_obj.paginator.num_pages > 1 %}
+                        <div class="card-footer bg-white border-top d-flex justify-content-center py-3">
+                            <nav aria-label="Notifications pagination">
+                                <ul class="pagination pagination-sm mb-0">
+                                    {% if page_obj.has_previous %}
+                                        <li class="page-item">
+                                            <a class="page-link" href="?page={{ page_obj.previous_page_number }}">&laquo;</a>
+                                        </li>
+                                    {% endif %}
+                                    {% for num in page_obj.paginator.page_range %}
+                                        {% if page_obj.number == num %}
+                                            <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+                                        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                                            <li class="page-item">
+                                                <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                                            </li>
+                                        {% endif %}
+                                    {% endfor %}
+                                    {% if page_obj.has_next %}
+                                        <li class="page-item">
+                                            <a class="page-link" href="?page={{ page_obj.next_page_number }}">&raquo;</a>
+                                        </li>
+                                    {% endif %}
+                                </ul>
+                            </nav>
+                        </div>
+                    {% endif %}
+                {% else %}
+                    <div class="text-center py-5 text-muted">
+                        <i class="bi bi-bell-slash fs-1"></i>
+                        <h6 class="fw-bold mt-2 mb-1">No Notifications</h6>
+                        <p class="small mb-0">You're all caught up! New messages and updates will appear here.</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

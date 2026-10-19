@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Chat Login | Krishaka Mitram{% endblock %}
+
+{% block extra_head %}
+<style>
+    .chat-login-card {
+        max-width: 420px;
+        margin: 2rem auto;
+    }
+    .chat-login-icon {
+        width: 72px;
+        height: 72px;
+        background: linear-gradient(135deg, var(--km-primary), var(--km-accent));
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1.5rem;
+    }
+    .chat-login-icon i {
+        font-size: 2rem;
+        color: white;
+    }
+    .form-floating > label {
+        color: var(--km-text-muted);
+    }
+    .form-control:focus {
+        border-color: var(--km-primary);
+        box-shadow: 0 0 0 0.2rem rgba(27, 67, 50, 0.15);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="chat-login-card">
+    <div class="card card-custom">
+        <div class="card-body p-5">
+            <div class="chat-login-icon">
+                <i class="bi bi-chat-dots"></i>
+            </div>
+
+            <h2 class="text-center mb-1" data-i18n="chat_login_title">Chat Login</h2>
+            <p class="text-center text-muted mb-4" data-i18n="chat_login_subtitle">Sign in to chat with farmers and buyers</p>
+
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags|default:'info' }} border-0 shadow-sm alert-dismissible fade show" role="alert">
+                        <i class="bi bi-info-circle me-2"></i> {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            <form method="post" novalidate>
+                {% csrf_token %}
+
+                <div class="form-floating mb-3">
+                    <input type="text" name="username" class="form-control" id="id_username" placeholder="Username" required autofocus>
+                    <label for="id_username" data-i18n="chat_label_username">Username</label>
+                </div>
+
+                <div class="form-floating mb-4">
+                    <input type="password" name="password" class="form-control" id="id_password" placeholder="Password" required>
+                    <label for="id_password" data-i18n="chat_label_password">Password</label>
+                </div>
+
+                <div class="d-grid mb-3">
+                    <button type="submit" class="btn btn-agri-primary" data-i18n="chat_btn_login">
+                        <i class="bi bi-chat-left me-1"></i> Enter Chat
+                    </button>
+                </div>
+
+                <div class="text-center">
+                    <a href="{% url 'login' %}" class="text-decoration-none small" data-i18n="chat_back_to_main">← Back to Main Site</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="text-center mt-3 text-muted small">
+        <p data-i18n="chat_login_note">By entering chat, you agree to our fair trade communication policy.</p>
+    </div>
+</div>
+{% endblock %}

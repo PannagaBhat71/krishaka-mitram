@@ -1,0 +1,163 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}My Conversations | Krishaka Mitram{% endblock %}
+
+{% block extra_head %}
+<style>
+    .chat-inbox-header {
+        background: linear-gradient(135deg, var(--km-primary), var(--km-accent));
+        color: white;
+        border-radius: 12px;
+        padding: 1.5rem 2rem;
+        margin-bottom: 1.5rem;
+    }
+    .conversation-card {
+        transition: all 0.2s ease;
+        border-left: 4px solid transparent;
+        cursor: pointer;
+    }
+    .conversation-card:hover {
+        border-left-color: var(--km-primary);
+        transform: translateX(3px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    }
+    .conversation-card.has-unread {
+        border-left-color: #e63946;
+        background-color: #fff9f9;
+    }
+    .user-avatar-placeholder {
+        width: 48px;
+        height: 48px;
+        background: #e2e8f0;
+        color: var(--km-primary);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 1.1rem;
+    }
+    .crop-tag {
+        font-size: 0.75rem;
+        padding: 0.2rem 0.6rem;
+        border-radius: 20px;
+        background-color: #e8f5e9;
+        color: var(--km-primary);
+        font-weight: 600;
+    }
+    .safety-notice {
+        background: #fffbeb;
+        border: 1px solid #fef3c7;
+        border-radius: 8px;
+        padding: 0.85rem 1.25rem;
+        font-size: 0.85rem;
+        color: #92400e;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin-bottom: 1.5rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="chat-inbox-header d-flex justify-content-between align-items-center flex-wrap gap-3">
+            <div>
+                <h3 class="fw-bold mb-1" data-i18n="inbox_title">
+                    <i class="bi bi-chat-dots me-2"></i> Real-time Agri-Chat
+                </h3>
+                <p class="mb-0 small text-white-50" data-i18n="inbox_subtitle">
+                    Direct communication between Karnataka farmers and registered buyers
+                </p>
+            </div>
+            <div class="d-flex align-items-center gap-2">
+                <a href="{% url 'farmer-list' %}" class="btn btn-light btn-sm text-dark fw-semibold" data-i18n="btn_browse_produce">
+                    <i class="bi bi-grid me-1"></i> Browse Produce
+                </a>
+                <a href="{% url 'chat:chat_logout' %}" class="btn btn-outline-light btn-sm" data-i18n="btn_chat_logout">
+                    <i class="bi bi-box-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+
+        <div class="safety-notice">
+            <i class="bi bi-shield-lock-fill fs-5 text-warning flex-shrink-0"></i>
+            <div>
+                <strong>Fair Trade Safety Policy:</strong> Sharing phone numbers, bank/UPI details, external links, or bypassing the platform is monitored and automatically restricted to protect farmers against fraud.
+            </div>
+        </div>
+
+        {% if conversations %}
+            <div class="row g-3">
+                {% for item in conversations %}
+                    <div class="col-12">
+                        <a href="{% url 'chat:chat_detail' conversation_id=item.conversation.id %}" class="text-decoration-none text-dark">
+                            <div class="card card-custom conversation-card {% if item.unread_count > 0 %}has-unread{% endif %}">
+                                <div class="card-body p-3 d-flex align-items-center gap-3">
+                                    <div class="user-avatar-placeholder flex-shrink-0">
+                                        {{ item.other_user.username|slice:":1"|upper }}
+                                    </div>
+                                    <div class="flex-grow-1 min-w-0">
+                                        <div class="d-flex align-items-center justify-content-between gap-2 mb-1">
+                                            <div class="d-flex align-items-center gap-2 flex-wrap">
+                                                <h6 class="fw-bold mb-0 text-truncate">{{ item.other_user.username }}</h6>
+                                                <span class="badge bg-secondary text-white small" style="font-size: 0.65rem;">
+                                                    {{ item.other_user.get_role_display }}
+                                                </span>
+                                                {% if item.listing %}
+                                                    <span class="crop-tag">
+                                                        <i class="bi bi-tag-fill me-1"></i>{{ item.listing.crop_name.name }} ({{ item.listing.location }})
+                                                    </span>
+                                                {% endif %}
+                                            </div>
+                                            <small class="text-muted flex-shrink-0" style="font-size: 0.75rem;">
+                                                {% if item.last_message %}
+                                                    {{ item.last_message.created_at|timesince }} ago
+                                                {% else %}
+                                                    {{ item.conversation.created_at|timesince }} ago
+                                                {% endif %}
+                                            </small>
+                                        </div>
+                                        <p class="text-muted small mb-0 text-truncate" style="max-width: 90%;">
+                                            {% if item.last_message %}
+                                                {% if item.last_message.sender == request.user %}
+                                                    <span class="text-dark fw-semibold">You:</span>
+                                                {% endif %}
+                                                {{ item.last_message.content }}
+                                            {% else %}
+                                                <span class="fst-italic text-muted">No messages yet. Click to start chatting!</span>
+                                            {% endif %}
+                                        </p>
+                                    </div>
+                                    <div class="flex-shrink-0 d-flex align-items-center gap-2">
+                                        {% if item.unread_count > 0 %}
+                                            <span class="badge rounded-pill bg-danger">{{ item.unread_count }}</span>
+                                        {% endif %}
+                                        <i class="bi bi-chevron-right text-muted"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="card card-custom text-center py-5">
+                <div class="card-body">
+                    <i class="bi bi-chat-square-dots text-muted" style="font-size: 3rem;"></i>
+                    <h5 class="fw-bold mt-3 mb-1" data-i18n="no_conv_title">No Conversations Yet</h5>
+                    <p class="text-muted small mb-4" data-i18n="no_conv_desc">
+                        Connect with Karnataka farmers by browsing active produce listings and clicking "Express Interest" or "Chat with Farmer".
+                    </p>
+                    <a href="{% url 'farmer-list' %}" class="btn btn-agri-primary btn-sm px-4" data-i18n="btn_browse_now">
+                        <i class="bi bi-grid me-1"></i> Browse Marketplace
+                    </a>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

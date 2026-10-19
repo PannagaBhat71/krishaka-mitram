@@ -11,21 +11,62 @@ https://docs.djangoproject.com/en/6.1/ref/settings/
 """
 
 import os
+import warnings
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-l91boi^#8p*s4k=-w5!c5_j37b-3r%jt)1bsow10*-00=%+icu')
-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', 'True').lower() in ('true', '1', 'yes')
 
-ALLOWED_HOSTS = ['*']
-RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
-if RENDER_EXTERNAL_HOSTNAME:
-    ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
+# Ensure DEBUG is also set for the test settings module
+if DEBUG:
+    os.environ['DEBUG'] = 'true'
+
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = os.environ.get('SECRET_KEY')
+if not SECRET_KEY:
+    import sys
+    is_manage_command = len(sys.argv) > 1 and sys.argv[1] in (
+        'check', 'makemigrations', 'migrate', 'test', 'showmigrations',
+        'collectstatic', 'shell', 'dbshell', 'createsuperuser', 'dumpdata', 'loaddata'
+    )
+
+    if DEBUG or is_manage_command:
+        SECRET_KEY = 'django-insecure-l91boi^#8p*s4k=-w5!c5_j37b-3r%jt)1bsow10*-00=%+icu'
+        if not DEBUG:
+            warnings.warn(
+                "Using development-only SECRET_KEY for management command. "
+                "Set SECRET_KEY environment variable before running the application.",
+                RuntimeWarning,
+                stacklevel=2
+            )
+    else:
+        raise ValueError(
+            "SECRET_KEY must be set in production environment. "
+            "Set the SECRET_KEY environment variable before starting the application."
+        )
+
+# Render hostname (optional for local development)
+RENDER_EXTERNAL_HOSTNAME = os.environ.get("RENDER_EXTERNAL_HOSTNAME")
+
+# ALLOWED_HOSTS
+if DEBUG:
+    ALLOWED_HOSTS = ['*']
+else:
+    ALLOWED_HOSTS = []
+    if RENDER_EXTERNAL_HOSTNAME:
+        ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
+
+    extra_hosts = os.environ.get('ALLOWED_HOSTS', '')
+    if extra_hosts:
+        ALLOWED_HOSTS.extend(
+            [h.strip() for h in extra_hosts.split(',') if h.strip()]
+        )
+
+    if not ALLOWED_HOSTS:
+        ALLOWED_HOSTS = ['*']
 
 CSRF_TRUSTED_ORIGINS = [
     'https://*.onrender.com',
@@ -46,8 +87,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'channels',
     'accounts',
-    'farmer'
+    'farmer',
+    'chat',
+    'moderation',
+    'notifications',
+    'audit',
 ]
 
 MIDDLEWARE = [
@@ -79,17 +125,52 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'kisan.wsgi.application'
+ASGI_APPLICATION = 'kisan.asgi.application'
+
+# Channels Configuration
+# Use Redis in production, InMemory for development
+REDIS_URL = os.environ.get('REDIS_URL', 'redis://localhost:6379/0')
+
+if DEBUG:
+    # Development: use in-memory channel layer
+    CHANNEL_LAYERS = {
+        'default': {
+            'BACKEND': 'channels.layers.InMemoryChannelLayer',
+        }
+    }
+else:
+    # Production: use Redis
+    CHANNEL_LAYERS = {
+        'default': {
+            'BACKEND': 'channels_redis.core.RedisChannelLayer',
+            'CONFIG': {
+                'hosts': [REDIS_URL],
+                'capacity': 1500,
+                'expiry': 10,
+                'group_expiry': 86400,
+                'symmetric_encryption_keys': [SECRET_KEY],
+            },
+        }
+    }
 
 
 # Database
 # https://docs.djangoproject.com/en/6.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+import dj_database_url
+
+# Use PostgreSQL in production, SQLite in development
+if os.environ.get('DATABASE_URL'):
+    DATABASES = {
+        'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
 
 # Password validation
@@ -122,6 +203,36 @@ USE_I18N = True
 
 USE_TZ = True
 
+# Chat & Moderation Settings
+CHAT_MESSAGES_PER_PAGE = 50
+VIOLATION_AUTO_PURGE_DAYS = 30
+MODERATION_DASHBOARD_PAGE_SIZE = 25
+
+# Security settings for WebSockets
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+# Production security settings
+if not DEBUG:
+    # HTTPS/SSL
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SESSION_COOKIE_HTTPONLY = True
+    CSRF_COOKIE_HTTPONLY = True
+
+    # HSTS
+    SECURE_HSTS_SECONDS = 31536000  # 1 year
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
+
+    # Content Security
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+    SECURE_BROWSER_XSS_FILTER = True
+    X_FRAME_OPTIONS = 'DENY'
+
+    # Referrer Policy
+    SECURE_REFERRER_POLICY = 'strict-origin-when-cross-origin'
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.1/howto/static-files/
@@ -139,12 +250,24 @@ LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
 
 
-
 # Email
 # https://docs.djangoproject.com/en/6.1/topics/email/#topic-email-configuration
 
-MAILERS = {
-    'default': {
-        'BACKEND': 'django.core.mail.backends.console.EmailBackend',
-    },
-}
+if DEBUG:
+    MAILERS = {
+        'default': {
+            'BACKEND': 'django.core.mail.backends.console.EmailBackend',
+        },
+    }
+else:
+    MAILERS = {
+        'default': {
+            'BACKEND': 'django.core.mail.backends.smtp.EmailBackend',
+            'HOST': os.environ.get('EMAIL_HOST', 'localhost'),
+            'PORT': int(os.environ.get('EMAIL_PORT', 587)),
+            'USE_TLS': os.environ.get('EMAIL_USE_TLS', 'True').lower() in ('true', '1', 'yes'),
+            'HOST_USER': os.environ.get('EMAIL_HOST_USER', ''),
+            'HOST_PASSWORD': os.environ.get('EMAIL_HOST_PASSWORD', ''),
+            'DEFAULT_FROM_EMAIL': os.environ.get('DEFAULT_FROM_EMAIL', 'noreply@krishakamitram.com'),
+        },
+    }

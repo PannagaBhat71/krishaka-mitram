@@ -57,6 +57,11 @@
                                     <a href="{% url 'farmer-detail' app.Farmer.pk %}" class="btn btn-sm btn-outline-success" title="View Details">
                                         <i class="bi bi-eye me-1"></i> View Produce
                                     </a>
+                                    {% if app.Farmer.posted_by %}
+                                    <a href="{% url 'chat:start_chat' app.Farmer.pk %}" class="btn btn-sm btn-success" title="Chat with Farmer">
+                                        <i class="bi bi-chat-dots me-1"></i> Chat
+                                    </a>
+                                    {% endif %}
                                 </div>
                             </td>
                         </tr>

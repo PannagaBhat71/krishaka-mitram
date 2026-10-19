@@ -1,0 +1,490 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Incident #{{ incident.id }} | Krishaka Mitram{% endblock %}
+
+{% block extra_head %}
+<style>
+    .context-message {
+        border-radius: 12px;
+        padding: 0.85rem 1rem;
+        font-size: 0.9rem;
+        max-width: 80%;
+        word-wrap: break-word;
+    }
+    .context-message.sent {
+        background: var(--km-primary);
+        color: white;
+        margin-left: auto;
+        border-bottom-right-radius: 4px;
+    }
+    .context-message.received {
+        background: white;
+        border: 1px solid var(--km-border);
+        margin-right: auto;
+        border-bottom-left-radius: 4px;
+    }
+    .context-message.flagged {
+        border-color: #f59e0b;
+        box-shadow: 0 0 0 1px #f59e0b;
+    }
+    .violation-card {
+        border: 1px solid var(--km-border);
+        border-radius: 12px;
+    }
+    .action-buttons .btn {
+        margin-right: 0.5rem;
+        margin-bottom: 0.5rem;
+    }
+    .incident-violation-item {
+        border: 1px solid var(--km-border);
+        border-radius: 8px;
+        transition: box-shadow 0.2s ease;
+    }
+    .incident-violation-item:hover {
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    .detected-content-preview {
+        font-family: monospace;
+        font-size: 0.8rem;
+        max-width: 200px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="row g-4">
+    <div class="col-xl-8">
+        <!-- Incident Header Card -->
+        <div class="card violation-card mb-4">
+            <div class="card-header bg-white border-bottom d-flex justify-content-between align-items-center flex-wrap gap-2">
+                <div class="d-flex align-items-center gap-2 flex-wrap">
+                    <h5 class="fw-bold mb-0" data-i18n="mod_incident_title">Incident Details</h5>
+                    <span class="badge
+                        {% if incident.status == 'NEW' %}bg-danger
+                        {% elif incident.status == 'VIEWED' %}bg-warning text-dark
+                        {% elif incident.status == 'PENDING_ACTION' %}bg-info
+                        {% else %}bg-success{% endif %} fs-6">
+                        {{ incident.get_status_display }}
+                    </span>
+                    <span class="badge bg-secondary fs-6">{{ incident.violations.count }} Violation(s)</span>
+                </div>
+                <a href="{% url 'moderation:moderation_dashboard' %}" class="btn btn-outline-secondary btn-sm">
+                    <i class="bi bi-arrow-left me-1"></i> Back to Dashboard
+                </a>
+            </div>
+            <div class="card-body">
+                <div class="row g-3 mb-4">
+                    <div class="col-md-6">
+                        <label class="form-label text-muted small fw-semibold" data-i18n="mod_field_submitter">Submitting User</label>
+                        {% if incident.submitting_user %}
+                            <div class="fw-semibold">
+                                <a href="#" class="text-decoration-none text-dark">{{ incident.submitting_user.username }}</a>
+                                <span class="badge bg-secondary ms-2" style="font-size: 0.6rem;">{{ incident.submitting_user.get_role_display }}</span>
+                            </div>
+                        {% else %}
+                            <div class="text-muted fst-italic">Unknown</div>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label text-muted small fw-semibold" data-i18n="mod_field_conversation">Conversation</label>
+                        <div class="fw-semibold">
+                            <a href="{% url 'chat:chat_detail' conversation_id=incident.conversation.id %}"
+                               class="text-decoration-none text-primary" target="_blank">
+                                #{{ incident.conversation.id }}
+                            </a>
+                        </div>
+                    </div>
+                    {% if incident.conversation.farmer_listing %}
+                    <div class="col-md-6">
+                        <label class="form-label text-muted small fw-semibold" data-i18n="mod_field_listing">Listing</label>
+                        <div>
+                            <a href="{% url 'farmer_detail' pk=incident.conversation.farmer_listing.id %}"
+                               class="text-decoration-none text-success" target="_blank">
+                                {{ incident.conversation.farmer_listing.crop_name.name }}
+                            </a>
+                        </div>
+                    </div>
+                    {% endif %}
+                    <div class="col-md-6">
+                        <label class="form-label text-muted small fw-semibold" data-i18n="mod_field_created">Incident Created</label>
+                        <div>{{ incident.created_at|date:"M d, Y H:i" }}</div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label text-muted small fw-semibold" data-i18n="mod_field_assigned">Assigned Moderator</label>
+                        {% if incident.assigned_moderator %}
+                            <div class="fw-semibold text-success">
+                                <i class="bi bi-person-check-fill me-1"></i>{{ incident.assigned_moderator.username }}
+                            </div>
+                        {% else %}
+                            <div class="text-muted fst-italic" data-i18n="mod_unassigned">Unassigned</div>
+                        {% endif %}
+                    </div>
+                    {% if incident.viewed_at %}
+                    <div class="col-md-6">
+                        <label class="form-label text-muted small fw-semibold" data-i18n="mod_field_viewed">Viewed At</label>
+                        <div>{{ incident.viewed_at|date:"M d, Y H:i" }}</div>
+                    </div>
+                    {% endif %}
+                    {% if incident.resolved_at %}
+                    <div class="col-md-6">
+                        <label class="form-label text-muted small fw-semibold" data-i18n="mod_field_resolved">Resolved At</label>
+                        <div>{{ incident.resolved_at|date:"M d, Y H:i" }}</div>
+                    </div>
+                    {% endif %}
+                    {% if incident.sensitive_data_purged %}
+                    <div class="col-md-6">
+                        <label class="form-label text-muted small fw-semibold" data-i18n="mod_field_purged">Content Purged</label>
+                        <div class="text-success fw-semibold">
+                            <i class="bi bi-check-circle-fill me-1"></i>
+                            {{ incident.purged_at|date:"M d, Y H:i" }} by {{ incident.purged_by.username }}
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <hr class="my-3">
+
+                <!-- Blocked Message Content (for blocked messages without Message record) -->
+                {% if incident.blocked_content and not incident.message %}
+                <div class="mb-4">
+                    <label class="form-label text-muted small fw-semibold mb-2" data-i18n="mod_field_blocked">Full Blocked Message Content</label>
+                    <div class="p-3 bg-danger bg-opacity-10 border border-danger rounded" style="font-family: monospace; font-size: 0.85rem; white-space: pre-wrap; word-break: break-all; max-height: 200px; overflow-y: auto;">
+                        {{ incident.blocked_content }}
+                    </div>
+                    <small class="text-muted">This full message was blocked and never stored in chat history. It will be purged when marked as viewed.</small>
+                </div>
+                {% endif %}
+
+                <!-- Original Message Context (only if message exists) -->
+                {% if incident.message %}
+                <div class="mb-4">
+                    <label class="form-label text-muted small fw-semibold mb-2" data-i18n="mod_field_original">Original Message (Filtered)</label>
+                    <div class="p-3 bg-light border rounded">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <strong>{{ incident.message.sender.username }}</strong>
+                            <small class="text-muted">{{ incident.message.created_at|date:"H:i" }}</small>
+                        </div>
+                        <div class="p-2 rounded {% if incident.message.is_filtered %}bg-warning bg-opacity-10 border{% endif %}">
+                            {{ incident.message.content }}
+                            {% if incident.message.is_filtered %}
+                                <div class="mt-2 small text-warning">
+                                    <i class="bi bi-shield-exclamation me-1"></i>This message was auto-filtered. Filter types: {{ incident.message.filter_types|join:", " }}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Violations List for this Incident -->
+        <div class="card violation-card mb-4">
+            <div class="card-header bg-white border-bottom">
+                <h6 class="fw-bold mb-0" data-i18n="mod_violations_list">Violations in this Incident ({{ incident.violations.count }})</h6>
+            </div>
+            <div class="card-body p-0">
+                <div class="list-group list-group-flush">
+                    {% for violation in incident.violations.all %}
+                    <div class="list-group-item incident-violation-item p-3">
+                        <div class="row g-3 align-items-center">
+                            <div class="col-md-3">
+                                <span class="badge
+                                    {% if violation.severity == 'critical' %}bg-danger
+                                    {% elif violation.severity == 'high' %}bg-warning text-dark
+                                    {% elif violation.severity == 'medium' %}bg-info
+                                    {% else %}bg-secondary{% endif %} fs-6">
+                                    {{ violation.get_severity_display }}
+                                </span>
+                                <span class="badge bg-light text-dark border small ms-2">{{ violation.rule.get_rule_type_display }}</span>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="fw-semibold">{{ violation.rule.name }}</div>
+                                <small class="text-muted">Action: {{ violation.rule.get_action_display }}</small>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label text-muted small fw-semibold mb-1" data-i18n="mod_field_detected">Detected Content</label>
+                                <div class="p-2 bg-light border rounded" style="font-family: monospace; font-size: 0.8rem; white-space: pre-wrap; word-break: break-all; max-height: 100px; overflow-y: auto;">
+                                    {% if violation.sensitive_data_purged %}
+                                        <span class="text-danger fst-italic">[PURGED ON {{ violation.purged_at|date:"M d, Y H:i" }} BY {{ violation.purged_by.username }}]</span>
+                                    {% else %}
+                                        {{ violation.detected_content }}
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label text-muted small fw-semibold mb-1" data-i18n="mod_field_status">Status</label>
+                                <span class="badge
+                                    {% if violation.status == 'NEW' %}bg-danger
+                                    {% elif violation.status == 'VIEWED' %}bg-warning text-dark
+                                    {% elif violation.status == 'PENDING_ACTION' %}bg-info
+                                    {% else %}bg-success{% endif %} fs-6">
+                                    {{ violation.get_status_display }}
+                                </span>
+                                {% if violation.assigned_moderator %}
+                                    <br><small class="text-success"><i class="bi bi-person-check-fill me-1"></i>{{ violation.assigned_moderator.username }}</small>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Conversation Context -->
+        {% if conversation %}
+        <div class="card violation-card mb-4">
+            <div class="card-header bg-white border-bottom d-flex justify-content-between align-items-center">
+                <h6 class="fw-bold mb-0" data-i18n="mod_field_context">Conversation Context</h6>
+                {% if incident.conversation.farmer_listing %}
+                    <a href="{% url 'farmer_detail' pk=incident.conversation.farmer_listing.id %}" class="btn btn-sm btn-outline-success" target="_blank">
+                        <i class="bi bi-box-arrow-up-right me-1"></i> View Listing
+                    </a>
+                {% endif %}
+            </div>
+            <div class="card-body p-0">
+                <div class="p-3 bg-light border rounded" style="max-height: 400px; overflow-y: auto;">
+                    {% if other_messages %}
+                        <div class="d-flex flex-column gap-2" style="max-width: 100%;">
+                            {% for msg in other_messages %}
+                                <div class="context-message {% if incident.message and msg.sender == incident.message.sender %}sent{% else %}received{% endif %} {% if incident.message and msg.id == incident.message.id %}flagged{% endif %}">
+                                    <div class="d-flex justify-content-between align-items-start mb-1">
+                                        <small class="fw-semibold">{{ msg.sender.username }}</small>
+                                        <small class="text-muted">{{ msg.created_at|date:"H:i" }}</small>
+                                    </div>
+                                    <div>{{ msg.content }}</div>
+                                    {% if msg.is_filtered %}
+                                        <div class="mt-1 small text-warning">
+                                            <i class="bi bi-shield-exclamation me-1"></i>Filtered: {{ msg.filter_types|join:", " }}
+                                        </div>
+                                    {% endif %}
+                                    {% if incident.message and msg.id == incident.message.id %}
+                                        <div class="mt-1 small text-danger fw-semibold">
+                                            <i class="bi bi-flag-fill me-1"></i>FLAGGED MESSAGE
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% elif incident.message %}
+                        <div class="text-center text-muted py-3">
+                            <i class="bi bi-clock-history fs-1"></i>
+                            <p class="mt-2 mb-0">No other messages in this time window.</p>
+                        </div>
+                    {% else %}
+                        <div class="text-center text-muted py-3">
+                            <i class="bi bi-info-circle fs-1"></i>
+                            <p class="mt-2 mb-0">Blocked message - no chat history available.</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Action Panel -->
+        <div class="card violation-card">
+            <div class="card-header bg-white border-bottom">
+                <h6 class="fw-bold mb-0" data-i18n="mod_actions_title">Moderation Actions</h6>
+            </div>
+            <div class="card-body">
+                <div class="action-buttons p-3 bg-light border rounded">
+
+                    {% if incident.status == 'NEW' %}
+                        <form method="post" action="{% url 'moderation:incident_action' incident_id=incident.id %}" class="d-inline">
+                            {% csrf_token %}
+                            <input type="hidden" name="action" value="mark_viewed">
+                            <button type="submit" class="btn btn-primary btn-sm" data-i18n="mod_action_view">
+                                <i class="bi bi-eye me-1"></i> Mark as Viewed
+                            </button>
+                        </form>
+                    {% endif %}
+
+                    {% if incident.status == 'VIEWED' %}
+                        <form method="post" action="{% url 'moderation:incident_action' incident_id=incident.id %}" class="d-inline">
+                            {% csrf_token %}
+                            <input type="hidden" name="action" value="mark_pending">
+                            <button type="submit" class="btn btn-info btn-sm" data-i18n="mod_action_pending">
+                                <i class="bi bi-hourglass-split me-1"></i> Mark Pending Action
+                            </button>
+                        </form>
+                    {% endif %}
+
+                    {% if incident.submitting_user %}
+                    {% if incident.status in 'VIEWED,PENDING_ACTION' %}
+                        <form method="post" action="{% url 'moderation:incident_action' incident_id=incident.id %}" class="d-inline">
+                            {% csrf_token %}
+                            <input type="hidden" name="action" value="warn_user">
+                            <button type="submit" class="btn btn-warning btn-sm" data-i18n="mod_action_warn">
+                                <i class="bi bi-exclamation-triangle me-1"></i> Warn User
+                            </button>
+                        </form>
+
+                        <form method="post" action="{% url 'moderation:incident_action' incident_id=incident.id %}" class="d-inline">
+                            {% csrf_token %}
+                            <input type="hidden" name="action" value="restrict_user">
+                            <div class="input-group input-group-sm" style="max-width: 200px; display: inline-flex;">
+                                <input type="number" name="duration_days" class="form-control" value="7" min="1" max="365" title="Days">
+                                <input type="hidden" name="resolution" value="Temporary restriction for policy violation">
+                                <button type="submit" class="btn btn-danger btn-sm" data-i18n="mod_action_restrict">
+                                    <i class="bi bi-person-slash me-1"></i> Restrict (Days)
+                                </button>
+                            </div>
+                        </form>
+
+                        {% if user.is_owner %}
+                            <form method="post" action="{% url 'moderation:incident_action' incident_id=incident.id %}" class="d-inline" onsubmit="return confirm('Permanently ban this user? This cannot be undone.');">
+                                {% csrf_token %}
+                                <input type="hidden" name="action" value="permanent_ban">
+                                <input type="hidden" name="resolution" value="Permanent ban for severe/repeated violations">
+                                <button type="submit" class="btn btn-outline-danger btn-sm" data-i18n="mod_action_ban">
+                                    <i class="bi bi-x-octagon me-1"></i> Permanent Ban
+                                </button>
+                            </form>
+                        {% endif %}
+                    {% endif %}
+                    {% endif %}
+
+                    {% if incident.status != 'RESOLVED' %}
+                        <form method="post" action="{% url 'moderation:incident_action' incident_id=incident.id %}" class="mt-3">
+                            {% csrf_token %}
+                            <input type="hidden" name="action" value="resolve">
+                            <div class="mb-2">
+                                <label class="form-label small fw-semibold" data-i18n="mod_action_resolution">Resolution Notes</label>
+                                <textarea name="resolution" class="form-control form-control-sm" rows="2"
+                                          placeholder="Describe the action taken and resolution..."></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-success btn-sm" data-i18n="mod_action_resolve">
+                                <i class="bi bi-check-circle me-1"></i> Resolve Incident
+                            </button>
+                        </form>
+                    {% else %}
+                        <div class="alert alert-success mb-0 py-2">
+                            <i class="bi bi-check-circle-fill me-1"></i>
+                            <strong>Resolved:</strong> {{ incident.resolution }}
+                            {% if incident.action_taken %}
+                                <br><small>Action taken: {{ incident.action_taken }}</small>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+
+                    {% if not incident.sensitive_data_purged %}
+                        <hr class="my-3">
+                        <form method="post" action="{% url 'moderation:incident_action' incident_id=incident.id %}" class="d-inline"
+                              onsubmit="return confirm('Permanently purge the sensitive content? This cannot be undone.');">
+                            {% csrf_token %}
+                            <input type="hidden" name="action" value="purge_sensitive">
+                            <button type="submit" class="btn btn-outline-dark btn-sm" data-i18n="mod_action_purge">
+                                <i class="bi bi-trash me-1"></i> Purge Sensitive Content
+                            </button>
+                        </form>
+                        {% if incident.purge_scheduled_at %}
+                        <small class="text-muted ms-2">Scheduled auto-purge: {{ incident.purge_scheduled_at|date:"M d, Y" }}</small>
+                        {% endif %}
+                    {% else %}
+                        <div class="text-muted small mt-2">
+                            <i class="bi bi-check-circle-fill text-success me-1"></i>
+                            Content purged on {{ incident.purged_at|date:"M d, Y H:i" }} by {{ incident.purged_by.username }}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="col-xl-4">
+        <!-- Submitter Violation History -->
+        <div class="card card-custom mb-4">
+            <div class="card-header bg-white border-bottom">
+                <h6 class="fw-bold mb-0" data-i18n="mod_sidebar_history">Submitter's Violation History</h6>
+            </div>
+            <div class="card-body">
+                {% if incident.submitting_user %}
+                {% with user=incident.submitting_user %}
+                <div class="d-flex align-items-center gap-3 mb-3">
+                    <div class="user-avatar-placeholder" style="width: 56px; height: 56px; font-size: 1.5rem;">{{ user.username|slice:":1"|upper }}</div>
+                    <div>
+                        <h6 class="fw-bold mb-0">{{ user.username }}</h6>
+                        <small class="text-muted">{{ user.get_role_display }} &bull; {{ user.violation_count }} prior warnings</small>
+                    </div>
+                </div>
+
+                {% if user.restrictions.all %}
+                    <div class="alert alert-warning py-2 mb-3">
+                        <i class="bi bi-exclamation-triangle-fill me-1"></i>
+                        <strong>Active Restrictions:</strong>
+                        <ul class="mb-0 mt-1 ps-3">
+                            {% for r in user.restrictions.all %}
+                                {% if r.is_active %}
+                                    <li class="small">{{ r.get_restriction_type_display }}{% if r.ends_at %} until {{ r.ends_at|date:"M d, Y" }}{% endif %}</li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+
+                {% with prior_violations=ModerationViolation.objects.filter(incident__submitting_user=user).exclude(incident_id=incident.id).order_by('-created_at')|slice:":10" %}
+                    {% if prior_violations %}
+                        <div class="list-group list-group-flush">
+                            {% for v in prior_violations %}
+                                <a href="{% url 'moderation:incident_detail' incident_id=v.incident.id %}" class="list-group-item list-group-item-action py-2">
+                                    <div class="d-flex justify-content-between">
+                                        <span class="badge
+                                            {% if v.severity == 'critical' %}bg-danger
+                                            {% elif v.severity == 'high' %}bg-warning text-dark
+                                            {% elif v.severity == 'medium' %}bg-info
+                                            {% else %}bg-secondary{% endif %}">
+                                            {{ v.get_severity_display }}
+                                        </span>
+                                        <small class="text-muted">{{ v.created_at|date:"M d" }}</small>
+                                    </div>
+                                    <small class="fw-semibold">{{ v.rule.name }}</small>
+                                    <div class="small text-muted">{{ v.get_status_display }}</div>
+                                </a>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p class="text-muted small text-center py-3" data-i18n="mod_no_prior">No prior violations.</p>
+                    {% endif %}
+                {% endwith %}
+                {% endwith %}
+                {% else %}
+                <div class="text-center text-muted py-3">
+                    <i class="bi bi-info-circle fs-1"></i>
+                    <p class="mt-2 mb-0">No submitting user associated with this incident.</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Quick Stats -->
+        <div class="card card-custom">
+            <div class="card-header bg-white border-bottom">
+                <h6 class="fw-bold mb-0" data-i18n="mod_sidebar_quick">Quick Stats</h6>
+            </div>
+            <div class="card-body">
+                <div class="row g-2 text-center">
+                    <div class="col-6">
+                        <div class="p-2 rounded bg-light">
+                            <div class="fs-4 fw-bold text-danger">{{ incident.submitting_user.violation_count|default:0 }}</div>
+                            <div class="small text-muted" data-i18n="mod_stat_total_warnings">Total Warnings</div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="p-2 rounded bg-light">
+                            <div class="fs-4 fw-bold text-primary">{{ incident.conversation.messages.count }}</div>
+                            <div class="small text-muted" data-i18n="mod_stat_conv_msgs">Messages in Chat</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

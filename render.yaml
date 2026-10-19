@@ -4,7 +4,7 @@ services:
     runtime: python
     plan: free
     buildCommand: "./build.sh"
-    startCommand: "gunicorn kisan.wsgi:application"
+    startCommand: "daphne -b 0.0.0.0 -p $PORT kisan.asgi:application"
     envVars:
       - key: PYTHON_VERSION
         value: 3.12.0
@@ -14,3 +14,5 @@ services:
         value: "False"
       - key: ALLOWED_HOSTS
         value: "*"
+      - key: REDIS_URL
+        sync: false
