@@ -8,8 +8,6 @@ class CustomUser(AbstractUser):
     ROLE_CHOICES = (
         ('farmer', 'Farmer'),
         ('buyer', 'Buyer'),
-        ('moderator', 'Moderator'),
-        ('owner', 'Owner'),
     )
 
     role = models.CharField(max_length=20, choices=ROLE_CHOICES, default='buyer')
@@ -25,11 +23,11 @@ class CustomUser(AbstractUser):
 
     @property
     def is_moderator(self):
-        return self.role in ['moderator', 'owner']
+        return self.is_staff or self.is_superuser or self.role in ['moderator', 'owner']
 
     @property
     def is_owner(self):
-        return self.role == 'owner'
+        return self.is_superuser or self.role == 'owner'
 
     def is_currently_restricted(self):
         """Check if user is currently under restriction."""
