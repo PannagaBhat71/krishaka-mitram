@@ -57,6 +57,17 @@ In regions like **Dakshina Kannada, Udupi, Hubballi, and Bagalkot**, small and m
 
 ---
 
+## 💬 Real-Time Chat System Architecture
+
+Krishaka Mitram features an event-driven real-time chat architecture enabling direct price negotiation between farmers and buyers:
+
+1. **Protocol & Gateway (ASGI & Daphne)**: Incoming HTTP requests and WebSocket connections (`ws://`) are routed via Daphne into an asynchronous ASGI interface configured in `kisan/asgi.py`.
+2. **Channel Layer & Routing**: Django Channels manages connection lifecycles and broadcast groups using `chat/routing.py` and `ChatConsumer`. It utilizes an in-memory channel layer for local development and Render deployment, with seamless Redis clustering support via `channels_redis`.
+3. **Automated Moderation Interceptor**: Before message persistence or broadcast, content passes through a moderation filter (`moderation/filters.py`) that detects harassment, fraud, or spam, automatically triggering violation warnings or account restrictions.
+4. **Persistence & Notifications**: Sanitized messages are stored in the database with delivery receipts, immediately dispatching in-app notifications and unread badges to the recipient.
+
+---
+
 ## 👥 Who Uses the Platform?
 
 | User Role | What They Can Do |
@@ -70,10 +81,11 @@ In regions like **Dakshina Kannada, Udupi, Hubballi, and Bagalkot**, small and m
 ## 🛠️ Tech Stack
 
 * **Backend**: Python 3.12 &bull; Django 6.1 (Clean MVT Architecture)
+* **Real-Time & WebSockets**: Django Channels 4.3 &bull; Daphne ASGI &bull; In-Memory / Redis Channel Layer
 * **Frontend**: HTML5, CSS3, Bootstrap 5.3.3, Bootstrap Icons
 * **Database**: SQLite (Development) &bull; PostgreSQL ready
 * **Static Assets**: WhiteNoise (Compressed & fast loading)
-* **Deployment**: Render Cloud (Live with Gunicorn)
+* **Deployment**: Render Cloud (Live with Daphne ASGI)
 
 ---
 
@@ -88,11 +100,15 @@ krishaka-mitram/
 ├── karnataka_agri_data.json    # Pre-loaded sample Karnataka crop data
 ├── db.sqlite3                  # Local database
 │
-├── kisan/                      # Main project settings & URL routing
+├── kisan/                      # Main project settings, ASGI & URL routing
 ├── accounts/                   # User accounts, login, signup, & roles (Farmer/Buyer)
 ├── farmer/                     # Marketplace feed, produce listings, & buyer inquiries
 │   ├── crop_images/            # High-res crop photos (Arecanut, Paddy, Coconut, etc.)
 │   └── management/commands/    # 'load_agri_data' command to seed sample data
+├── chat/                       # Real-time WebSocket chat & negotiations
+├── moderation/                 # Content moderation, safety filters, & user restrictions
+├── notifications/              # In-app alerts for inquiries and messages
+├── audit/                      # Security audit trails and compliance logging
 └── templates/                  # Base HTML layout with English & Kannada navigation
 ```
 
